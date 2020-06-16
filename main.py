@@ -3,6 +3,8 @@ import twitter_get_user_timeline
 import NLP_stats_repackaged
 import Doc_to_Vec_Refactored
 import network_analysis
+import network_crawler
+
 #Test
 from nltk import FreqDist
 import sys
@@ -17,6 +19,7 @@ import time
 #Take the username as a starting point
 first_handle = sys.argv[1] #Entering the Twitter handle of person you want to start with.
 network_neighbors = int(sys.argv[2]) #Enter this as a parameter?
+levels = int(sys.argv[3])
 
 '''
 Check if the .jsonl file has been downloaded!
@@ -41,15 +44,31 @@ def run_network(network_handle):
     
 def getting_file_names(most_common_list_input):
     f_name_list = [] #List of json files in the closests neighbors...
+    f_handle_list = []
     for i in range(network_neighbors): #Set number of people in network want to check
         if len(most_common_list_input) != 0: #Making sure it's not an empty list...
             f_name_list.append('user_timeline_' + most_common_list[i][0] + '.jsonl')
-            mega_list.append(f_name_list)
+            f_handle_list.append(most_common_list[i][0])
             downloading_json(most_common_list[i][0]) #Wait for the file to have downloaded all of the right json files...
         else:
             print('Whoops.')
     
-    return f_name_list
+    return f_name_list, f_handle_list
+    
+    
+def getting_file_names(most_common_list_input):
+    f_name_list = [] #List of json files in the closests neighbors...
+    f_handle_list = []
+    for i in range(network_neighbors): #Set number of people in network want to check
+        if len(most_common_list_input) != 0: #Making sure it's not an empty list...
+            f_name_list.append('user_timeline_' + most_common_list[i][0] + '.jsonl')
+            f_handle_list.append(most_common_list[i][0])
+            downloading_json(most_common_list[i][0]) #Wait for the file to have downloaded all of the right json files...
+        else:
+            print('Whoops2.')
+    
+    return f_name_list, f_handle_list
+    
     
 def nlp_similarity(placeholder_input):
     word_filter_all = []
@@ -95,10 +114,12 @@ if __name__ == '__main__':
 
     most_common_list = twitter_mention_frequency.twitter_mentioning(f_name) #Raw list, top 40 most connected people?
     
-    mega_list = []
-    
     f_name_list = getting_file_names(most_common_list)
+    
+    network_crawler.network_crawler(f_name, levels)
                
-    json_filenames, doc_model = nlp_similarity(f_name_list)        
+    #json_filenames, doc_model = nlp_similarity(f_name_list)        
      
-    network_analysis.network_stuff(json_filenames, doc_model)
+    #network_analysis.network_stuff(json_filenames, doc_model)
+    
+    
