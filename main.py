@@ -59,11 +59,17 @@ def getting_file_names(most_common_list_input):
 def getting_file_names(most_common_list_input):
     f_name_list = [] #List of json files in the closests neighbors...
     f_handle_list = []
+    
+    
+    print(most_common_list_input)
+    print('cough')
+    time.sleep(10)
+    
     for i in range(network_neighbors): #Set number of people in network want to check
         if len(most_common_list_input) != 0: #Making sure it's not an empty list...
-            f_name_list.append('user_timeline_' + most_common_list[i][0] + '.jsonl')
-            f_handle_list.append(most_common_list[i][0])
-            downloading_json(most_common_list[i][0]) #Wait for the file to have downloaded all of the right json files...
+            f_name_list.append('user_timeline_' + most_common_list_input[i][0] + '.jsonl')
+            f_handle_list.append(most_common_list_input[i][0])
+            downloading_json(most_common_list_input[i][0]) #Wait for the file to have downloaded all of the right json files...
         else:
             print('Whoops2.')
     
@@ -116,7 +122,7 @@ if __name__ == '__main__':
     
     f_name_list = getting_file_names(most_common_list)
     
-    network_crawler.network_crawler(f_name, levels)
+    network_crawler.network_crawler(first_handle, levels)
                
     #json_filenames, doc_model = nlp_similarity(f_name_list)        
      

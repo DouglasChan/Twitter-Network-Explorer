@@ -16,8 +16,8 @@ def network_crawler(seed_handle, levels):
         total_combinations.append(i) # To do with differences in indexes, Python quirks etc...
         
         if i == 0:
-            print(first_handle)
-            time.sleep(10)
+            #print(first_handle)
+            #time.sleep(10)
             print('We want to skip this as a loop')
             first_file_name = main.downloading_json(first_handle)
             
@@ -36,6 +36,9 @@ def network_crawler(seed_handle, levels):
                 #What is the length?
                 
                 most_common_list = twitter_mention_frequency.twitter_mentioning(mega_file_list[i-1][j])
+                
+                print(most_common_list)
+                time.sleep(10)
                 
                 local_file_list, local_handle_list = main.getting_file_names(most_common_list)
                 
