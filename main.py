@@ -87,13 +87,31 @@ def nlp_similarity(placeholder_input):
         if len(word_filter_list) != 0: #Removes jsonl file name from list of jsonl files if the Twitter user isn't found...
             word_filter_all.append(word_filter_list)
 
-    Doc_to_Vec_Refactored.doc_similarity(placeholder_input, word_filter_all)
+    json_filenames, doc_model = Doc_to_Vec_Refactored.doc_similarity(placeholder_input, word_filter_all)
+    return json_filenames, doc_model
     
-def network_stuff():
+def network_stuff(files, model):
+
+    network_dict = {}
+    
+    for tweet_document in json_filenames:
+        most_similar = model.docvecs.most_similar(tweet_document)[0][0]
+    
+        for tweet_document_compare in json_filenames:
+            similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
+            print("This is the similarity for %s, and %s. It is %s." %(tweet_document, tweet_document_compare, similarity))
+            
+            #network_dict.setdefault((tweet_document, tweet_document_compare), []).append(similarity) #Network
+            tweet_1_name = tweet_document[14:]
+            tweet_1_name = tweet_1_name[:-6]
+            tweet_2_name = tweet_document_compare[14:]
+            tweet_2_name = tweet_2_name[:-6]
+            network_dict.setdefault((tweet_1_name, tweet_2_name), similarity)
+        
+        print('----------')    
 
     G = nx.Graph()
     _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.44]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
-    
 
     print('Booga')
     time.sleep(10)
@@ -203,5 +221,6 @@ if __name__ == '__main__':
     
     f_name_list = getting_file_names(most_common_list)
                
-    nlp_similarity(f_name_list)        
-            
+    json_filenames, doc_model = nlp_similarity(f_name_list)        
+     
+    network_stuff(json_filenames, doc_model)
