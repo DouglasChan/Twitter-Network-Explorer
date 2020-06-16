@@ -12,8 +12,8 @@ def NLP_per_user(fname):
     text_split_list = [] #Text split list is a nested list with each smallest item being a given word separated by spaces.
     word_list = [] #Word list is a flat list of all the words from all the tweets. 
     
-    print(fname)
-    time.sleep(10)
+    #print(fname)
+    #time.sleep(10)
     
     with open(fname) as f: #Taking the JSON file and appending just the text information for each tweet.
         for line in f:

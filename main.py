@@ -60,10 +60,9 @@ def getting_file_names(most_common_list_input):
     f_name_list = [] #List of json files in the closests neighbors...
     f_handle_list = []
     
-    
     print(most_common_list_input)
-    print('cough')
-    time.sleep(5)
+    #print('cough')
+    #time.sleep(5)
     
     for i in range(network_neighbors): #Set number of people in network want to check
         if len(most_common_list_input) != 0: #Making sure it's not an empty list...
@@ -77,6 +76,11 @@ def getting_file_names(most_common_list_input):
     
     
 def nlp_similarity(placeholder_input):
+    print('\n\n\n')
+    print(placeholder_input) #Should be what I expect it to be?
+    print('That was it')
+    time.sleep(10)
+
     word_filter_all = []
     f_name_remove = []
 
@@ -88,6 +92,9 @@ def nlp_similarity(placeholder_input):
     for i in f_name_remove:
         if i in placeholder_input:
             placeholder_input.remove(i)
+            
+    #print(f_name_remove)
+    #time.sleep(1000) 
 
     for i in range(len(placeholder_input)):
 
@@ -123,48 +130,42 @@ if __name__ == '__main__':
     f_name_list = getting_file_names(most_common_list)
     
     json_filenames = network_crawler.network_crawler(first_handle, levels)
-    
-    print('Zorro!')
-    print(json_filenames)
-    last_nested_list = json_filenames[len(json_filenames)-1]
-    print(last_nested_list)
-    
-    json_filenames = last_nested_list
-               
-    print(f_name_list)
-    print(type(f_name_list))
-    print('That was fname list')
-    time.sleep(10)
-    
-    print(json_filenames)
-    print(type(json_filenames))
-    print('That was json filenames')
-    time.sleep(10)
                
     #Getting json files into right format...
     #AKA tuple
     
-    json_names = []
-    for i in range(len(json_filenames)):
-        json_edited_prefix = json_filenames[i][14:]
-        json_edited = json_edited_prefix[:-6]
-        json_names.append(json_edited)
+    #json_names = []
+    #for i in range(len(json_filenames)):
+    #    json_edited_prefix = json_filenames[i][14:]
+    #    json_edited = json_edited_prefix[:-6]
+    #    json_names.append(json_edited)
         
-    print(json_names)
-    print('Here we go')
-    time.sleep(10)
+    #print(json_names)
+    #print('Here we go')
+    #time.sleep(10)
     
-    json_tuple = (json_filenames, json_names)
+    #json_tuple = (json_filenames, json_names)
     #json_tuple = tuple(json_filenames, json_names)
-    print(json_tuple)
-    print(f_name_list)
-    print('-------------------------')
+    #print(json_tuple)
+    #print(f_name_list)
+    #print('-------------------------')
     
     
+    print('\n\n\n')
     print(json_filenames)
-    print('---------')
+    print('Calm before the storm')
+    #print('---------')
     time.sleep(15)
     
+    if type(json_filenames[0]) == str:
+        print('Batman')
+    elif type(json_filenames[0]) == list:
+        print('Robin')
+        
+    json_filenames = json_filenames[len(json_filenames)-1]
+    print(json_filenames)
+    
+    time.sleep(10)
                
     doc_model = nlp_similarity(json_filenames)        
      
