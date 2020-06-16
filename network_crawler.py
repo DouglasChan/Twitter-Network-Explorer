@@ -54,7 +54,7 @@ def network_crawler(seed_handle, levels):
                 
                 most_common_list = twitter_mention_frequency.twitter_mentioning(mega_file_list[i-1][j])
                 
-                local_file_list, local_handle_list = getting_file_names(most_common_list)
+                local_file_list, local_handle_list = main.getting_file_names(most_common_list)
                 
                 larger_file_list.append(local_file_list)
                 larger_handle_list.append(local_handle_list)
@@ -81,6 +81,9 @@ def network_crawler(seed_handle, levels):
             print('Huzzah!')
     print('dun dun dun')
     print(mega_file_list)
+    
+    json_filenames = mega_file_list
+    return json_filenames
             
 if __name__ == '__main__':
     network_crawler()

@@ -63,7 +63,7 @@ def getting_file_names(most_common_list_input):
     
     print(most_common_list_input)
     print('cough')
-    time.sleep(10)
+    time.sleep(5)
     
     for i in range(network_neighbors): #Set number of people in network want to check
         if len(most_common_list_input) != 0: #Making sure it's not an empty list...
@@ -109,8 +109,8 @@ def nlp_similarity(placeholder_input):
         if len(word_filter_list) != 0: #Removes jsonl file name from list of jsonl files if the Twitter user isn't found...
             word_filter_all.append(word_filter_list)
 
-    json_filenames, doc_model = Doc_to_Vec_Refactored.doc_similarity(placeholder_input, word_filter_all)
-    return json_filenames, doc_model
+    doc_model = Doc_to_Vec_Refactored.doc_similarity(placeholder_input, word_filter_all)
+    return doc_model
 
 
 
@@ -122,9 +122,51 @@ if __name__ == '__main__':
     
     f_name_list = getting_file_names(most_common_list)
     
-    network_crawler.network_crawler(first_handle, levels)
+    json_filenames = network_crawler.network_crawler(first_handle, levels)
+    
+    print('Zorro!')
+    print(json_filenames)
+    last_nested_list = json_filenames[len(json_filenames)-1]
+    print(last_nested_list)
+    
+    json_filenames = last_nested_list
                
-    #json_filenames, doc_model = nlp_similarity(f_name_list)        
+    print(f_name_list)
+    print(type(f_name_list))
+    print('That was fname list')
+    time.sleep(10)
+    
+    print(json_filenames)
+    print(type(json_filenames))
+    print('That was json filenames')
+    time.sleep(10)
+               
+    #Getting json files into right format...
+    #AKA tuple
+    
+    json_names = []
+    for i in range(len(json_filenames)):
+        json_edited_prefix = json_filenames[i][14:]
+        json_edited = json_edited_prefix[:-6]
+        json_names.append(json_edited)
+        
+    print(json_names)
+    print('Here we go')
+    time.sleep(10)
+    
+    json_tuple = (json_filenames, json_names)
+    #json_tuple = tuple(json_filenames, json_names)
+    print(json_tuple)
+    print(f_name_list)
+    print('-------------------------')
+    
+    
+    print(json_filenames)
+    print('---------')
+    time.sleep(15)
+    
+               
+    doc_model = nlp_similarity(json_filenames)        
      
     #network_analysis.network_stuff(json_filenames, doc_model)
     
