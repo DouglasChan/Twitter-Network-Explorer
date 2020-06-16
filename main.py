@@ -169,6 +169,6 @@ if __name__ == '__main__':
                
     doc_model = nlp_similarity(json_filenames)        
      
-    #network_analysis.network_stuff(json_filenames, doc_model)
+    network_analysis.network_stuff(json_filenames, doc_model)
     
     
