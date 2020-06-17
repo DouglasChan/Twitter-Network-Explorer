@@ -56,8 +56,6 @@ def network_stuff(files, model):
     G.remove_nodes_from(list(nx.isolates(G)))
     isolate_list = list(nx.isolates(G))
     
-    
-    
     #Clustering portion
     from networkx.algorithms.community import greedy_modularity_communities
 

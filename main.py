@@ -5,7 +5,6 @@ import Doc_to_Vec_Refactored
 import network_analysis
 import network_crawler
 
-#Test
 from nltk import FreqDist
 import sys
 from subprocess import call
@@ -16,63 +15,38 @@ import time
 
 #Assuming you're starting with a profile that actually exists...
 
-#Take the username as a starting point
 first_handle = sys.argv[1] #Entering the Twitter handle of person you want to start with.
-network_neighbors = int(sys.argv[2]) #Enter this as a parameter?
-levels = int(sys.argv[3])
+network_neighbors = int(sys.argv[2]) #The number of people to compare with per node at each level
+levels = int(sys.argv[3]) #The degrees of separation of how far one would want to get
 
-'''
-Check if the .jsonl file has been downloaded!
-'''
-download_start = time.time()
-
-def downloading_json(handle):
-    file_name = 'user_timeline_' + handle + '.jsonl' #Converts the handle to the file path of hopefully existing json file.
+def downloading_json(handle): #This function checks if the .jsonl file has been downloaded to the directory.
+    file_name = 'user_timeline_' + handle + '.jsonl' #Converts the handle to the filename of the existing json file.
     for i in range(2):
         if path.exists(file_name) == False:
-            time.sleep(6)
-            twitter_get_user_timeline.getting_timeline(handle) #Downloads if it doesn't exist
+            time.sleep(6) #Sleep statements are necessary insertions here. If the program isn't given enough time to download a given json file, downloads will keep restarting until the end of the loop taking much longer.
+            twitter_get_user_timeline.getting_timeline(handle) #Downloads the json file if it doesn't exist in the directory
             continue
         else:
             break
     
     return file_name #Gives the full username...
-    
-def run_network(network_handle):
-    f_name = downloading_json(network_handle) 
-    return f_name
-    
-def getting_file_names(most_common_list_input):
+        
+def getting_file_names(most_mentioned_list):
     f_name_list = [] #List of json files in the closests neighbors...
-    f_handle_list = []
-    for i in range(network_neighbors): #Set number of people in network want to check
-        if len(most_common_list_input) != 0: #Making sure it's not an empty list...
-            f_name_list.append('user_timeline_' + most_common_list[i][0] + '.jsonl')
-            f_handle_list.append(most_common_list[i][0])
-            downloading_json(most_common_list[i][0]) #Wait for the file to have downloaded all of the right json files...
+    
+    for i in range(network_neighbors): #The function checks for the most mentioned neighbors specified by network_neighbors parameter.
+        if len(most_mentioned_list) != 0: #Making sure it's not an empty list -- empty users / protected tweets may break the program.
+            f_name_list.append('user_timeline_' + most_mentioned_list[i][0] + '.jsonl')
+            downloading_json(most_mentioned_list[i][0]) #Wait for program to verify that the requisite .jsonl files associated with the user has been downloaded first before proceeding
         else:
-            print('Whoops.')
+            raise Exception("We weren't able to get all the raw data.")
     
-    return f_name_list, f_handle_list
+    #print(f_name_list)
+    #print('wut')
+    #time.sleep(10)
     
+    return f_name_list
     
-def getting_file_names(most_common_list_input):
-    f_name_list = [] #List of json files in the closests neighbors...
-    f_handle_list = []
-    
-    print(most_common_list_input)
-    #print('cough')
-    #time.sleep(5)
-    
-    for i in range(network_neighbors): #Set number of people in network want to check
-        if len(most_common_list_input) != 0: #Making sure it's not an empty list...
-            f_name_list.append('user_timeline_' + most_common_list_input[i][0] + '.jsonl')
-            f_handle_list.append(most_common_list_input[i][0])
-            downloading_json(most_common_list_input[i][0]) #Wait for the file to have downloaded all of the right json files...
-        else:
-            print('Whoops2.')
-    
-    return f_name_list, f_handle_list
     
     
 def nlp_similarity(placeholder_input):
@@ -91,10 +65,7 @@ def nlp_similarity(placeholder_input):
 
     for i in f_name_remove:
         if i in placeholder_input:
-            placeholder_input.remove(i)
-            
-    #print(f_name_remove)
-    #time.sleep(1000) 
+            placeholder_input.remove(i) 
 
     for i in range(len(placeholder_input)):
 
@@ -123,7 +94,9 @@ def nlp_similarity(placeholder_input):
 
 if __name__ == '__main__':
 
-    f_name = run_network(first_handle) #Takes the first handle inputted, checks that the appropriate user timeline is there...
+    f_name = downloading_json(first_handle)
+
+    #f_name = run_network(first_handle) #Takes the first handle inputted, checks that the appropriate user timeline is there...
 
     most_common_list = twitter_mention_frequency.twitter_mentioning(f_name) #Raw list, top 40 most connected people?
     
@@ -131,24 +104,6 @@ if __name__ == '__main__':
     
     json_filenames = network_crawler.network_crawler(first_handle, levels)
                
-    #Getting json files into right format...
-    #AKA tuple
-    
-    #json_names = []
-    #for i in range(len(json_filenames)):
-    #    json_edited_prefix = json_filenames[i][14:]
-    #    json_edited = json_edited_prefix[:-6]
-    #    json_names.append(json_edited)
-        
-    #print(json_names)
-    #print('Here we go')
-    #time.sleep(10)
-    
-    #json_tuple = (json_filenames, json_names)
-    #json_tuple = tuple(json_filenames, json_names)
-    #print(json_tuple)
-    #print(f_name_list)
-    #print('-------------------------')
     
     
     print('\n\n\n')

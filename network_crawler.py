@@ -5,6 +5,11 @@ import twitter_mention_frequency
 combined_file_list = []
 
 def network_crawler(seed_handle, levels):
+    #print('\n\n\n')
+    #print(seed_handle)
+    #print(levels)
+    #print('wut')
+    #time.sleep(1000)
     
     first_handle = seed_handle #Uses the input that was entered into the command line.
     
@@ -27,6 +32,9 @@ def network_crawler(seed_handle, levels):
             first_list.append(first_file_name)
 
             combined_file_list.append(first_list) #The usernames at each level are appended to combined_file_list to keep track of who is in the network at each degree of separation.
+            #print(combined_file_list)
+            #print('Did level 0')
+            #time.sleep(10)
     
         elif (i == 1): 
             
@@ -34,9 +42,13 @@ def network_crawler(seed_handle, levels):
                 
                 most_common_list = twitter_mention_frequency.twitter_mentioning(combined_file_list[i-1][j]) #Uses the previously built function of getting top N twitter users in network by mention
                 
-                local_file_list = main.getting_file_names(most_common_list)[0] #Gets the returned file list, we won't need the handle list so only taking the output at index 0.
+                local_file_list = main.getting_file_names(most_common_list) #*.
                 
                 combined_file_list.append(local_file_list) 
+                
+                print(combined_file_list)
+                print('Did level 1')
+                time.sleep(10)
         
         else:
             larger_file_list = []
@@ -44,10 +56,11 @@ def network_crawler(seed_handle, levels):
             
             for j in range(len(combined_file_list[i-1])): # The program will refer back to the most recent list of users. 
                                                         #So if we were looking at the 6th degree of separation, we would be looking at network neighbors from the 5th degree of separation from the seed profile.
-                                                        
+                
+                
                 most_common_list = twitter_mention_frequency.twitter_mentioning(combined_file_list[i-1][j])
                 
-                local_file_list = main.getting_file_names(most_common_list)[0]
+                local_file_list = main.getting_file_names(most_common_list)
                 
                 larger_file_list.append(local_file_list) #This list of lists has to be used since at 2 or + degrees of separation, each exploration of new neighbors is its own list.
                 
@@ -61,6 +74,9 @@ def network_crawler(seed_handle, levels):
                                             #The first is the seed profile, the second is their neighbors, and the third is the flat list of 2nd degree neighbors.
     
     json_filenames = combined_file_list
+    #print(json_filenames)
+    #print('wut')
+    #time.sleep(10)
     return json_filenames
             
 if __name__ == '__main__':
