@@ -7,7 +7,6 @@ import sys
 from subprocess import call
 
 from os import path
-#import os.path
 import time
 
 #Assuming you're starting with a profile that actually exists...
@@ -49,6 +48,10 @@ def nlp_similarity(json_list): #* May remove -- could come in more useful when c
         content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out stopwords
         
         fdist = NLP_stats_repackaged.getting_frequency(content_word_list)
+        
+        print(fdist)
+        print('wut')
+        time.sleep(1000)
 
 if __name__ == '__main__':
 
@@ -59,5 +62,7 @@ if __name__ == '__main__':
     doc_model = Doc_to_Vec_Refactored.doc_similarity(json_filenames)
      
     network_analysis.network_stuff(json_filenames, doc_model)
+    
+    nlp_similarity(json_filenames)
     
     

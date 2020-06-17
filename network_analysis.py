@@ -24,7 +24,7 @@ def network_stuff(files, model):
         print('----------')    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.475]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.575]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
 
     print('Booga')
     time.sleep(5)
@@ -117,6 +117,5 @@ def network_stuff(files, model):
 
     plt.figure(figsize=(20,10))
     nx.draw(G, positions, **options)
-    
     
     plt.savefig( "g.png" )
