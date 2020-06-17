@@ -2,19 +2,13 @@ import main
 import time
 import twitter_mention_frequency
 
-#total_combinations = []
-#handle_list = []
 combined_file_list = []
 
 def network_crawler(seed_handle, levels):
     
-    first_handle = seed_handle #Uses the input from the command line.
+    first_handle = seed_handle #Uses the input that was entered into the command line.
     
-    #handle_list.append(first_handle) #Appending seed?
-    
-    for i in range(levels+1):
-        #total_combinations.append(i) # To do with differences in indexes, Python quirks etc...
-        
+    for i in range(levels+1):        
         '''
         The code runs differently depending on the number of levels specified to the crawler.
         
@@ -42,48 +36,29 @@ def network_crawler(seed_handle, levels):
                 
                 local_file_list = main.getting_file_names(most_common_list)[0] #Gets the returned file list, we won't need the handle list so only taking the output at index 0.
                 
-                #print(local_file_list)
-                #print(local_handle_list)
-                #print('hot potato')
-                #time.sleep(1000)
-                
                 combined_file_list.append(local_file_list) 
-                #handle_list.append(local_handle_list)
         
         else:
             larger_file_list = []
             larger_handle_list = []
             
-            for j in range(len(combined_file_list[i-1])):
-                #What is the length?
-                
+            for j in range(len(combined_file_list[i-1])): # The program will refer back to the most recent list of users. 
+                                                        #So if we were looking at the 6th degree of separation, we would be looking at network neighbors from the 5th degree of separation from the seed profile.
+                                                        
                 most_common_list = twitter_mention_frequency.twitter_mentioning(combined_file_list[i-1][j])
                 
-                local_file_list, local_handle_list = main.getting_file_names(most_common_list)
+                local_file_list = main.getting_file_names(most_common_list)[0]
                 
-                larger_file_list.append(local_file_list)
-                larger_handle_list.append(local_handle_list)
+                larger_file_list.append(local_file_list) #This list of lists has to be used since at 2 or + degrees of separation, each exploration of new neighbors is its own list.
                 
             combined_file_list.append(larger_file_list)
-            #handle_list.append(larger_handle_list)
+
+            flat_list = [item for sublist in combined_file_list[i] for item in sublist]
+            flat_list = list(set(flat_list)) #Since the order of which we've identified the neighbors at a given level doesn't matter, 
+                                            #we set all of the users within that search degree as a flat list so that our function can work recursively.
             
-            print('OOGABOOGA')
-            time.sleep(3)
-            #print(combined_file_list[i])
-            
-            #Flattening list?
-            
-            print('CACAW')
-            temp_flat_list = [item for sublist in combined_file_list[i] for item in sublist]
-            temp_flat_list = list(set(temp_flat_list))
-            
-            
-            #print(temp_flat_list)
-            time.sleep(3)
-            
-            combined_file_list[i] = temp_flat_list
-            
-    print(combined_file_list)
+            combined_file_list[i] = flat_list #With this code at say level 2, we have 3 lists within the larger list. 
+                                            #The first is the seed profile, the second is their neighbors, and the third is the flat list of 2nd degree neighbors.
     
     json_filenames = combined_file_list
     return json_filenames
