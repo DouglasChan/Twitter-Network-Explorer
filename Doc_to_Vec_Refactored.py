@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 #This doc2vec model used on Twitter text corpora was guided by the Kaggle project, "Comparing Books with Word2Vec and Doc2Vec". 
 
-def doc_similarity(json_filenames, word_filters):
+def doc_similarity(json_filenames):
     stopwords = nltk.corpus.stopwords.words('english')
     custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;'] #May be redundant?
     stopwords.append(custom_words)
@@ -25,7 +25,7 @@ def doc_similarity(json_filenames, word_filters):
             word_list = word_tokenize(json.loads(line)['text'])
             
             for word in word_list:
-                if (word in word_filters[i]) and (word not in stopwords):
+                if word not in stopwords:
                     local_tweet_corpus.append(json.loads(line)['text']) #Adds to the variable specific to 
                     break
         

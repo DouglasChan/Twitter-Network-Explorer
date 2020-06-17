@@ -41,35 +41,15 @@ def getting_file_names(most_mentioned_list):
         else:
             raise Exception("We weren't able to get all the raw data.")
     
-    #print(f_name_list)
-    #print('wut')
-    #time.sleep(10)
-    
     return f_name_list
-    
-    
-    
-def nlp_similarity(placeholder_input):
-    print('\n\n\n')
-    print(placeholder_input) #Should be what I expect it to be?
-    print('That was it')
-    time.sleep(10)
+        
+def nlp_similarity(json_list):
 
-    word_filter_all = []
-    f_name_remove = []
+    word_filter_all = [] #This is the list of words that will be removed
 
-    for i in range(len(placeholder_input)):
-        text_list, text_split_list, word_list = NLP_stats_repackaged.NLP_per_user(placeholder_input[i])
-        if len(text_list) == 0:
-            f_name_remove.append(placeholder_input[i])
+    for i in range(len(json_list)):
 
-    for i in f_name_remove:
-        if i in placeholder_input:
-            placeholder_input.remove(i) 
-
-    for i in range(len(placeholder_input)):
-
-        text_list, text_split_list, word_list = NLP_stats_repackaged.NLP_per_user(placeholder_input[i]) #The main function of the NLP file returns 3 variables.
+        text_list, text_split_list, word_list = NLP_stats_repackaged.NLP_per_user(json_list[i]) #The main function of the NLP file returns 3 variables.
         
         content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out
         
@@ -86,8 +66,12 @@ def nlp_similarity(placeholder_input):
                 
         if len(word_filter_list) != 0: #Removes jsonl file name from list of jsonl files if the Twitter user isn't found...
             word_filter_all.append(word_filter_list)
+            
+    #print(json_list)
+    #print('wut')
+    #time.sleep(1000)
 
-    doc_model = Doc_to_Vec_Refactored.doc_similarity(placeholder_input, word_filter_all)
+    doc_model = Doc_to_Vec_Refactored.doc_similarity(json_list)
     return doc_model
 
 
@@ -96,26 +80,11 @@ if __name__ == '__main__':
 
     f_name = downloading_json(first_handle)
 
-    #f_name = run_network(first_handle) #Takes the first handle inputted, checks that the appropriate user timeline is there...
-
     most_common_list = twitter_mention_frequency.twitter_mentioning(f_name) #Raw list, top 40 most connected people?
     
     f_name_list = getting_file_names(most_common_list)
     
     json_filenames = network_crawler.network_crawler(first_handle, levels)
-               
-    
-    
-    print('\n\n\n')
-    print(json_filenames)
-    print('Calm before the storm')
-    #print('---------')
-    time.sleep(15)
-    
-    if type(json_filenames[0]) == str:
-        print('Batman')
-    elif type(json_filenames[0]) == list:
-        print('Robin')
         
     json_filenames = json_filenames[len(json_filenames)-1]
     print(json_filenames)
