@@ -1,16 +1,13 @@
-import twitter_mention_frequency
-import twitter_get_user_timeline
-import NLP_stats_repackaged
-import Doc_to_Vec_Refactored
-import network_analysis
-import network_crawler
+import twitter_mention_frequency, twitter_get_user_timeline
+import NLP_stats_repackaged, Doc_to_Vec_Refactored
+import network_analysis, network_crawler
 
 from nltk import FreqDist
 import sys
 from subprocess import call
 
-import os.path
 from os import path
+#import os.path
 import time
 
 #Assuming you're starting with a profile that actually exists...
@@ -43,55 +40,23 @@ def getting_file_names(most_mentioned_list):
     
     return f_name_list
         
-def nlp_similarity(json_list):
-
-    word_filter_all = [] #This is the list of words that will be removed
+def nlp_similarity(json_list): #* May remove -- could come in more useful when combining frequency data of groups?
 
     for i in range(len(json_list)):
 
         text_list, text_split_list, word_list = NLP_stats_repackaged.NLP_per_user(json_list[i]) #The main function of the NLP file returns 3 variables.
         
-        content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out
+        content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out stopwords
         
         fdist = NLP_stats_repackaged.getting_frequency(content_word_list)
-        
-        word_filter_list = []
-        f_name_remove = []
-        
-        if len(fdist) == 0: #Creates local list of words to create subsection of tweets
-            pass
-        else:
-            for i in range(5):
-                word_filter_list.append(fdist[i][0])
-                
-        if len(word_filter_list) != 0: #Removes jsonl file name from list of jsonl files if the Twitter user isn't found...
-            word_filter_all.append(word_filter_list)
-            
-    #print(json_list)
-    #print('wut')
-    #time.sleep(1000)
-
-    doc_model = Doc_to_Vec_Refactored.doc_similarity(json_list)
-    return doc_model
-
-
 
 if __name__ == '__main__':
 
-    f_name = downloading_json(first_handle)
-
-    most_common_list = twitter_mention_frequency.twitter_mentioning(f_name) #Raw list, top 40 most connected people?
-    
-    f_name_list = getting_file_names(most_common_list)
-    
     json_filenames = network_crawler.network_crawler(first_handle, levels)
         
     json_filenames = json_filenames[len(json_filenames)-1]
-    print(json_filenames)
-    
-    time.sleep(10)
-               
-    doc_model = nlp_similarity(json_filenames)        
+
+    doc_model = Doc_to_Vec_Refactored.doc_similarity(json_filenames)
      
     network_analysis.network_stuff(json_filenames, doc_model)
     
