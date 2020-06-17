@@ -24,10 +24,10 @@ def network_stuff(files, model):
         print('----------')    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.44]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.475]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
 
     print('Booga')
-    time.sleep(10)
+    time.sleep(5)
     
     print(len(G))
     print(len(G.edges))
@@ -47,7 +47,7 @@ def network_stuff(files, model):
     
     
     print('Tooktook')
-    time.sleep(12)
+    time.sleep(5)
     
     
     for i in range(len(edge_removal_list)):

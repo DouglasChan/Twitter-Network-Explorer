@@ -5,7 +5,7 @@ import nltk
 import networkx as nx
 from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
-#Test
+
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -38,7 +38,6 @@ def doc_similarity(json_filenames, word_filters):
                 gensim.utils.simple_preprocess(
                     local_tweet_as_one), #local_tweet_as_one needs to be a long string, not a list.
                     ["{}".format(json_filenames[i])]))
-
        
     #Building the model.
     model = gensim.models.Doc2Vec(size = 300, #Number of features of the Doc2Vec model
@@ -51,10 +50,22 @@ def doc_similarity(json_filenames, word_filters):
     
     model.docvecs.most_similar(1) #Uses cosine similarity between the 20 lists within the larger tweet_corpus list. 
 
+    doc2vec_scores = []
+    
+    ### Printing out the similarity scores to the terminal ###
+    
+    for tweet_document in json_filenames:
+        most_similar = model.docvecs.most_similar(tweet_document)[0][0]
+    
+        for tweet_document_compare in json_filenames:
+            similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
+            print("This is the similarity for %s, and %s. It is %s." %(tweet_document, tweet_document_compare, similarity))
+        
+        print('----------') #Separating by user.
+    
     doc_model = model
-
-    #NETWORK
-    return json_filenames, doc_model
+    
+    return doc_model
 
 if __name__ == '__main__':
     doc_similarity()
