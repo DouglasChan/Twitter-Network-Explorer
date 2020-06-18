@@ -13,10 +13,14 @@ def getting_timeline(user):
     fname = "user_timeline_{}.jsonl".format(user)
     
     with open(fname, 'w') as f:
-        counter = 0
         for page in Cursor(client.user_timeline, screen_name = user, count = 200).pages(16): #Up to 3200 Tweets (Twitter limit?*)
-                for status in page: 
+            counter = 0
+            for status in page: 
+                if counter % 4 == 0:
                     f.write(json.dumps(status._json)+"\n")
+                    counter += 1
+                else:
+                    counter += 1
 
 if __name__ == "__main__":
     user = sys.argv[1]

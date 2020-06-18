@@ -2,79 +2,71 @@ import networkx as nx
 from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import time
+from networkx.algorithms.community import greedy_modularity_communities
 
 def network_stuff(files, model):
 
     network_dict = {} #Per the code in the network lecture, a dictionary is used to keep track of edges *
     
     for tweet_document in files: #The file list is the most expanded json files up to the outermost level of the network.
-        #most_similar = model.docvecs.most_similar(tweet_document)[0][0]
     
         for tweet_document_compare in files: #Comparing each Twitter user to each other Twiter user
+            
             similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
             print("This is the similarity for %s, and %s. It is %s." %(tweet_document[14:-6], tweet_document_compare[14:-6], similarity))
             
-            tweet_1_name = tweet_document[14:] #For visualization of the users, we take the name of jsonl files and scrub off the prefix and suffix of the users being compared
-            tweet_1_name = tweet_1_name[:-6]
-            tweet_2_name = tweet_document_compare[14:]
-            tweet_2_name = tweet_2_name[:-6]
-            
-            #print("This is the similarity for %s, and %s. It is %s." %(tweet_1_name, tweet, similarity))
+            tweet_1_name = tweet_document[14:-6] #For visualization of the users, we take the name of jsonl files and scrub off the prefix and suffix of the users being compared
+            tweet_2_name = tweet_document_compare[14:-6]
             
             network_dict.setdefault((tweet_1_name, tweet_2_name), similarity)
         
-        print('----------')    
+        print('----------') #Separating similarity scores in raw output    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.5]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
-
-    print('Booga')
-    time.sleep(5)
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.45]; #Uses similarity scores as the basis for drawing edges in the graph. 
+                                                                                         #This parameter will vary depending on the size of the network.    
+    print('There are ' + str(len(G)) + ' nodes being compared.')
+    print('There are ' + str(len(G.edges)) + ' edges in the network.')
     
-    print(len(G))
-    print(len(G.edges))
-    print(G.edges)
-    print(type(G.edges))
+    '''
+    To get the clustering algorithm to work correctly, we must remove isolates in our network. 
     
-    #Removing self ones?
+    The algorithm won't detect isolates automatically, since in our Doc2Vec model we end up comparing similarity of each Twitter user, to each other Twitter user and themselves.
+    
+    Since a similarity score with themselves will always generate 1, we will need to remove these self-similarity scores from the edge list before proceeding.
+    '''
+    
+    #Removing edges of nodes pointing to themselves.
     edge_list = list(G.edges)
     edge_removal_list = []
-    for i in range(len(edge_list)):
-        print(edge_list[i])
-        
+    for i in range(len(edge_list)): #Checking if this edge is between a node and itself
         if edge_list[i][0] == edge_list[i][1]:
             edge_removal_list.append(edge_list[i])
-            
-    print(edge_removal_list)
-    
-    
-    print('Tooktook')
-    time.sleep(5)
-    
-    
+
+    #Using list created above to remove these edges from the graph object.
     for i in range(len(edge_removal_list)):
         G.remove_edge(edge_removal_list[i][0],edge_removal_list[i][1])
         
+    '''
+    Once the edges have been removed, we can use the inbuilt nx.isolates function to identify which nodes don't have connections to other nodes.
+    '''
     G.remove_nodes_from(list(nx.isolates(G)))
-    isolate_list = list(nx.isolates(G))
     
     #Clustering portion
-    from networkx.algorithms.community import greedy_modularity_communities
-
+    
     clusters = greedy_modularity_communities(G)
     
-    print(f'The social network has {len(clusters)} clusters.')
+    print(f'The social network has {len(clusters)} clusters.') #Per the network science notebook, we use similar visualizations for our network graphs.
     
-    plt.figure(figsize=(13,7))
-    #nx.draw_kamada_kawai(G, with_labels = True)
+    #plt.figure(figsize=(13,7))
     
-    
-    def set_cluster_number(G, cluster_list):
+    def set_cluster_number(G, cluster_list): #This cluster number function is used to assign a numerical value to the clusters generated through the greedy modularity algorithm for community detection.
         for i, cluster in enumerate(cluster_list):
             for node in cluster:
                 G.nodes[node]['cluster'] = i+1
-                
-    misc_clusters = [13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    '''            
+    misc_clusters = [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    
             
     def get_node_color(node):
 
@@ -101,12 +93,41 @@ def network_stuff(files, model):
         elif node['cluster'] == 11 :
             color = 'darkgreen'
         elif node['cluster'] == 12:
-            color = 'lightred'
+            color = 'maroon'
+        elif node['cluster'] == 13:
+            color = 'olive'
+        elif node['cluster'] == 14:
+            color = 'cyan'
+        elif node['cluster'] == 15:
+            color = 'lavender'
+            
         elif node['cluster'] in misc_clusters:
             color = 'grey'
             
         else:   
             pass
+        return color
+    '''    
+       
+    def get_node_color(node):
+        color_indices = list(range(0,20))
+        color_list = ['red','green','blue','yellow','orange',\
+                    'pink','brown','purple','olive','cyan',\
+                    'gold','dodgerblue','plum','crimson','silver',\
+                    'indianred','peachpuff','honeydew','cornflowerblue','fuchsia']
+    
+        if node['cluster'] in color_indices:
+            #color = color_list.index(node['cluster'])
+            color = color_list[node['cluster']]
+            
+            #print(node['cluster'])
+            #print(color)
+            #print('wut')
+            #time.sleep(5)
+            
+        else:
+            color = 'grey'
+            
         return color
         
     set_cluster_number(G, clusters)
