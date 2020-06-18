@@ -5,26 +5,28 @@ import time
 
 def network_stuff(files, model):
 
-    network_dict = {}
+    network_dict = {} #Per the code in the network lecture, a dictionary is used to keep track of edges *
     
-    for tweet_document in files:
-        most_similar = model.docvecs.most_similar(tweet_document)[0][0]
+    for tweet_document in files: #The file list is the most expanded json files up to the outermost level of the network.
+        #most_similar = model.docvecs.most_similar(tweet_document)[0][0]
     
-        for tweet_document_compare in files:
+        for tweet_document_compare in files: #Comparing each Twitter user to each other Twiter user
             similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
-            print("This is the similarity for %s, and %s. It is %s." %(tweet_document, tweet_document_compare, similarity))
+            print("This is the similarity for %s, and %s. It is %s." %(tweet_document[14:-6], tweet_document_compare[14:-6], similarity))
             
-            #network_dict.setdefault((tweet_document, tweet_document_compare), []).append(similarity) #Network
-            tweet_1_name = tweet_document[14:]
+            tweet_1_name = tweet_document[14:] #For visualization of the users, we take the name of jsonl files and scrub off the prefix and suffix of the users being compared
             tweet_1_name = tweet_1_name[:-6]
             tweet_2_name = tweet_document_compare[14:]
             tweet_2_name = tweet_2_name[:-6]
+            
+            #print("This is the similarity for %s, and %s. It is %s." %(tweet_1_name, tweet, similarity))
+            
             network_dict.setdefault((tweet_1_name, tweet_2_name), similarity)
         
         print('----------')    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.575]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.5]; #j[0]? ; #0.425 for 50 ; #0.45 for 100
 
     print('Booga')
     time.sleep(5)
