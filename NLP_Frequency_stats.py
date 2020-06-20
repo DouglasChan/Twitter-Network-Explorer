@@ -54,7 +54,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
             content_word_list = content_filter(word_list)
 
             fdist1 = FreqDist(content_word_list)
-            fdist1_most_common = fdist1.most_common(100)    
+            fdist1_most_common = fdist1.most_common(50)    
 
             custom_words = ['RT','','-','I\'m','@'] #Second pass at removing other stopwords
             fdist1_most_common = [i for i in fdist1_most_common if i[0] not in custom_words]
@@ -80,31 +80,31 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
 
         bigram_master = []
 
-        for j in range(len(text_list)):
+        for bigram in range(len(text_list)):
             word_list = []
-            word_list.append(text_list[j].split(" "))
+            word_list.append(text_list[bigram].split(" "))
         
             word_output_list = 0
         
-        for j in word_list: #Gets rid of nesting quirk
-            word_output_list = j                
+            for split_bigram_word in word_list: #Gets rid of nesting quirk
+                word_output_list = split_bigram_word                
         
-        bigrams = list(nltk.bigrams(word_output_list))
+            bigrams = list(nltk.bigrams(word_output_list))
         
-        filtered = []
-        for pairs in bigrams:
-            if pairs[0].lower() in stopwords or pairs[1].lower() in stopwords:
-                continue
-            elif pairs[0].lower() in custom_words or pairs[1].lower() in custom_words:
-                continue
-            filtered.append(pairs)
+            filtered = []
+            for pairs in bigrams:
+                if pairs[0].lower() in stopwords or pairs[1].lower() in stopwords:
+                    continue
+                elif pairs[0].lower() in custom_words or pairs[1].lower() in custom_words:
+                    continue
+                filtered.append(pairs)
         
-        bigram_master.extend(filtered)
+            bigram_master.extend(filtered)
         
         print(len(bigram_master))
         
         fdistbigram = FreqDist(bigram_master)
-        fdistbigram_common = fdistbigram.most_common(100)
+        fdistbigram_common = fdistbigram.most_common(50)
 
         dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
         dfbigram.plot(kind = 'bar', x = 'word')
