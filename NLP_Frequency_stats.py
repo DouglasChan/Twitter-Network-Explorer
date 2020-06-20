@@ -30,6 +30,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
     
     frequency_unigram_stats = []
     frequency_bigram_stats = []
+    cluster_counter = 1
  
     #Do for every json file in the cluster next*
     
@@ -85,15 +86,32 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         
         print(type(fdist1_most_common))
         time.sleep(5)
-        '''
-        distribution_variable = []
-        fdist1_most_common_keys = fdist1_most_common.keys()
+        
+        unigram_distribution_variable = []
+        
+        for i in range(len(fdist1_most_common)):
+            for j in range(fdist1_most_common[i][1]): #The number of times it appears...
+                unigram_distribution_variable.append(fdist1_most_common[i][0])
+        
+        #fdist1_most_common_keys = fdist1_most_common.keys()
         #for i in range(len(fdist1_most_common)):
-        '''
+        
+        #print(distribution_variable)
+        #print('wut')
+        #time.sleep(1000)
         
         
         #print(fdist1_most_common)
-        frequency_unigram_stats.append(fdist1_most_common)
+        frequency_unigram_stats.append(fdist1_most_common) #Deprecate?
+        
+        print(unigram_distribution_variable)
+        #unigram_distribution_variable = [item for sublist in unigram_distribution_variable for item in sublist]
+        
+        unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
+        
+        #print(unigram_distribution_variable)
+        #print('wut')
+        #time.sleep(1000)
         
         bigram_master = []
         
@@ -129,11 +147,23 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
             
         #print(bigram_master)
         
+        
+        
             
         fdistbigram = FreqDist(bigram_master)
         fdistbigram_common = fdistbigram.most_common(50)
         
-        print(fdistbigram_common)
+        
+        bigram_distribution_variable = []
+        
+        for i in range(len(fdistbigram_common)):
+            for j in range(fdistbigram_common[i][1]): #The number of times it appears...
+                bigram_distribution_variable.append(fdistbigram_common[i][0])
+        
+        #bigram_distribution_variable = [item for sublist in bigram_distribution_variable for item in sublist]
+        
+        #print(bigram_distribution_variable)
+        #time.sleep(1000)
         
         df = pd.DataFrame(fdist1_most_common, columns =['word', 'frequency'])
         df.plot(kind = 'bar', x = 'word')
@@ -156,10 +186,18 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         plt.figure()
         plt.imshow(wordcloud)
         
+        
+        wordcloud2 = WordCloud(collocations=False).generate(unigram_distribution_variable)
+        plt.figure()
+        plt.imshow(wordcloud2)
+        
         #plt.imshow(wordcloud, interpolation='bilinear')
         
         time.sleep(3)
         #word_cloud_generator.generate_cloud()
+        
+        wordcloud2.to_file('cluster ' + str(cluster_counter) + '.png') 
+        cluster_counter += 1
         
         #plt.show()
     
@@ -225,3 +263,6 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
     '''
 if __name__ == '__main__':
     frequency_analysis()
+    
+#Ref : 
+#1. https://stackoverflow.com/questions/43954114/python-wordcloud-repetitve-words
