@@ -25,14 +25,17 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
  
     #Do for every json file in the cluster next*
     
-    for i in range(len(cluster_setlist)):#Cluster_setlist is list of networkx set objects.
-        cluster_members = list(cluster_setlist[i]) #Converting from networkx object to list of users within a cluster
+    for cluster_list in range(len(cluster_setlist)):#Cluster_setlist is list of networkx set objects.
+        cluster_members = list(cluster_setlist[cluster_list]) #Converting from networkx object to list of users within a cluster
         
         text_list = [] 
         text_split_list = []
         word_list = []
         
         for j in range(len(cluster_members)):
+            print(cluster_members[j])
+            print('check')
+            time.sleep(4)
             fname = 'user_timeline_' + cluster_members[j] + '.jsonl' #Converting username back to .jsonl filename
             
             with open(fname) as f: #Taking JSON file and appending just the text information for each tweet.
@@ -41,24 +44,28 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
             
                     text_list.append(tweet['text']) #Adds all tweets to the text list.
         
-        for j in range(len(text_list)): #Splits each tweet by word using space as a delimiter. 
-            text_split_list.append(text_list[i].split(" "))
+            for k in range(len(text_list)): #Splits each tweet by word using space as a delimiter. 
+                text_split_list.append(text_list[k].split(" "))
         
-        for j in range(len(text_split_list)): #Adds all to single list
-            for k in range(len(text_split_list[j])):
-                word_list.append(text_split_list[j][k])
+            for k in range(len(text_split_list)): #Adds all to single list
+                for l in range(len(text_split_list[k])):
+                    word_list.append(text_split_list[k][l])
                 
-        content_word_list = content_filter(word_list)
+            content_word_list = content_filter(word_list)
 
-        fdist1 = FreqDist(content_word_list)
-        fdist1_most_common = fdist1.most_common(50)
+            fdist1 = FreqDist(content_word_list)
+            fdist1_most_common = fdist1.most_common(100)    
+
+            custom_words = ['RT','','-','I\'m','@'] #Second pass at removing other stopwords
+            fdist1_most_common = [i for i in fdist1_most_common if i[0] not in custom_words]
         
-        print(fdist1)
-        print('wut')
-        time.sleep(1000)
-
-        custom_words = ['RT','','-','I\'m','@'] #Second pass at removing other stopwords
-        fdist1_most_common = [i for i in fdist1_most_common if i[0] not in custom_words]
+            #print(len(text_list))
+            #print(word_list)
+            #print(fdist1)
+            #print(fdist1_most_common)
+            #print(type(fdist1_most_common))
+            #print('wut')
+            #time.sleep(1000)
 
         print('Word list length is ' + str(len(word_list)))
         print('The cluster has ' + str(len(text_list)) + ' tweets.')
@@ -75,7 +82,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
 
         for j in range(len(text_list)):
             word_list = []
-            word_list.append(text_list[i].split(" "))
+            word_list.append(text_list[j].split(" "))
         
             word_output_list = 0
         
@@ -97,7 +104,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         print(len(bigram_master))
         
         fdistbigram = FreqDist(bigram_master)
-        fdistbigram_common = fdistbigram.most_common(50)
+        fdistbigram_common = fdistbigram.most_common(100)
 
         dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
         dfbigram.plot(kind = 'bar', x = 'word')
