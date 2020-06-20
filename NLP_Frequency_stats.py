@@ -10,12 +10,7 @@ import matplotlib.pyplot as plt
 from nltk.collocations import BigramCollocationFinder
 from nltk.metrics import BigramAssocMeasures
 from nltk import bigrams
-
-#Example of code
-
-time_0 = time.time()
-
-fname = sys.argv[1] #Take the first argument entered in as the filename
+import time
 
 stopwords = nltk.corpus.stopwords.words('english')
 
@@ -23,19 +18,24 @@ def content_filter(text):
     '''
     List comprehension for first pass at removing the standard English stopwords
     '''
-    
-    
-    
     content = [w for w in text if w.lower() not in stopwords]
     return content
 
-def frequency_analysis():
+def frequency_analysis(cluster_setlist): #Take from network_analysis
     
     text_list = [] 
     text_split_list = []
     word_list = []
     
     #Do for every json file in the cluster next*
+    
+    for i in range(len(cluster_setlist)):
+        cluster_members = list(cluster_setlist[i])
+        
+        print(cluster_members)
+        
+    print('wut')
+    time.sleep(1000)
     
     with open(fname) as f: #Taking JSON file and appending just the text information for each tweet.
         for line in f:
