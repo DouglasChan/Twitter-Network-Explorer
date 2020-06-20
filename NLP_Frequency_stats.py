@@ -13,6 +13,8 @@ from nltk import bigrams
 import time
 
 stopwords = nltk.corpus.stopwords.words('english')
+stopwords_unigram = ['RT','rt','','-','I\'m','@','—']
+stopwords.append(stopwords_unigram)
 
 def content_filter(text):
     '''
@@ -75,8 +77,8 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         fdist1_most_common = fdist1.most_common(50)
         #print(fdist1_most_common)
         
-        custom_words = ['rt','','-','I\'m','@','—'] #Second pass at removing other stopwords 
-        fdist1_most_common = [i for i in fdist1_most_common if i[0] not in custom_words]
+        custom_words = ['RT','rt','','-','I\'m','@','—','.'] #Second pass at removing other stopwords 
+        fdist1_most_common = [i for i in fdist1_most_common if i[0] not in (custom_words or stopwords)]
         
         #print(fdist1_most_common)
         frequency_unigram_stats.append(fdist1_most_common)
@@ -120,6 +122,13 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         fdistbigram_common = fdistbigram.most_common(50)
         
         print(fdistbigram_common)
+        
+        df = pd.DataFrame(fdist1_most_common, columns =['word', 'frequency'])
+        df.plot(kind = 'bar', x = 'word')
+        
+        dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
+        dfbigram.plot(kind = 'bar', x = 'word')
+        plt.show()
     
     '''                
     print(cluster_text_list)
