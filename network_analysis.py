@@ -23,7 +23,7 @@ def network_stuff(files, model):
         print('----------') #Separating similarity scores in raw output    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.45]; #Uses similarity scores as the basis for drawing edges in the graph. 
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.55]; #Uses similarity scores as the basis for drawing edges in the graph. 
                                                                                          #This parameter will vary depending on the size of the network.    
     print('There are ' + str(len(G)) + ' nodes being compared.')
     print('There are ' + str(len(G.edges)) + ' edges in the network.')
@@ -58,56 +58,18 @@ def network_stuff(files, model):
     
     print(f'The social network has {len(clusters)} clusters.') #Per the network science notebook, we use similar visualizations for our network graphs.
     
-    #plt.figure(figsize=(13,7))
-    
     def set_cluster_number(G, cluster_list): #This cluster number function is used to assign a numerical value to the clusters generated through the greedy modularity algorithm for community detection.
         for i, cluster in enumerate(cluster_list):
             for node in cluster:
-                G.nodes[node]['cluster'] = i+1
-    '''            
-    misc_clusters = [16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
-    
-            
-    def get_node_color(node):
-
-        if node['cluster'] == 1:
-            color = 'pink'
-        elif node['cluster'] == 2:
-            color = 'lightblue'
-        elif node['cluster'] == 3:
-            color = 'lightgreen'
-        elif node['cluster'] == 4:
-            color = 'blue'
-        elif node['cluster'] == 5:
-            color = 'red'
-        elif node['cluster'] == 6:
-            color = 'orange'
-        elif node['cluster'] == 7:
-            color = 'purple'
-        elif node['cluster'] == 8:
-            color = 'brown'
-        elif node['cluster'] == 9:
-            color = 'darkblue'
-        elif node['cluster'] == 10:
-            color = 'green'
-        elif node['cluster'] == 11 :
-            color = 'darkgreen'
-        elif node['cluster'] == 12:
-            color = 'maroon'
-        elif node['cluster'] == 13:
-            color = 'olive'
-        elif node['cluster'] == 14:
-            color = 'cyan'
-        elif node['cluster'] == 15:
-            color = 'lavender'
-            
-        elif node['cluster'] in misc_clusters:
-            color = 'grey'
-            
-        else:   
-            pass
-        return color
-    '''    
+                G.nodes[node]['cluster'] = i+1  
+        print(cluster_list)
+        print(type(cluster_list))
+        print('wut')
+        print(type(cluster_list[0]))
+        print(type(list(cluster_list[0])))
+        print(list(cluster_list[0]))
+        print('wut2')
+        time.sleep(1000)
        
     def get_node_color(node):
         color_indices = list(range(0,20))
@@ -117,13 +79,7 @@ def network_stuff(files, model):
                     'indianred','peachpuff','honeydew','cornflowerblue','fuchsia']
     
         if node['cluster'] in color_indices:
-            #color = color_list.index(node['cluster'])
             color = color_list[node['cluster']]
-            
-            #print(node['cluster'])
-            #print(color)
-            #print('wut')
-            #time.sleep(5)
             
         else:
             color = 'grey'
@@ -142,3 +98,5 @@ def network_stuff(files, model):
     nx.draw(G, positions, **options)
     
     plt.savefig( "g.png" )
+    
+    return cluster_list
