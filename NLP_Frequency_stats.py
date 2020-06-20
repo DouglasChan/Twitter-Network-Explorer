@@ -11,6 +11,9 @@ from nltk.collocations import BigramCollocationFinder
 from nltk.metrics import BigramAssocMeasures
 from nltk import bigrams
 import time
+from wordcloud import WordCloud
+
+import word_cloud_generator
 
 stopwords = nltk.corpus.stopwords.words('english')
 stopwords_unigram = ['RT','rt','','-','I\'m','@','—']
@@ -128,6 +131,25 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         
         dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
         dfbigram.plot(kind = 'bar', x = 'word')
+        
+        #dfbigram2 = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
+        #dfbigram2.plot(kind = 'bar', x = 'word')
+        
+        
+        #Wordcloud section?
+        
+        text = 'Andrew M. Yang[1] (born January 13, 1975) is an American political commentator, entrepreneur, lawyer, and philanthropist. Originally a corporate lawyer, Yang began working in various startups and early stage growth companies as a founder or executive from 2000 to 2009. In 2011, he founded Venture for America (VFA), a nonprofit organization focused on creating jobs in cities struggling to recover from the Great Recession. He then ran as a candidate in the 2020 Democratic presidential primaries.'
+        
+        wordcloud = WordCloud().generate(text)
+        
+        plt.figure()
+        plt.imshow(wordcloud)
+        
+        #plt.imshow(wordcloud, interpolation='bilinear')
+        
+        time.sleep(3)
+        #word_cloud_generator.generate_cloud()
+        
         plt.show()
     
     '''                
