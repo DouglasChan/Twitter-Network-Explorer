@@ -23,7 +23,7 @@ def network_stuff(files, model):
         print('----------') #Separating similarity scores in raw output    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.55]; #Uses similarity scores as the basis for drawing edges in the graph. 
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.50]; #Uses similarity scores as the basis for drawing edges in the graph. 
                                                                                          #This parameter will vary depending on the size of the network.    
     print('There are ' + str(len(G)) + ' nodes being compared.')
     print('There are ' + str(len(G.edges)) + ' edges in the network.')
@@ -61,7 +61,10 @@ def network_stuff(files, model):
     def set_cluster_number(G, cluster_list): #This cluster number function is used to assign a numerical value to the clusters generated through the greedy modularity algorithm for community detection.
         for i, cluster in enumerate(cluster_list):
             for node in cluster:
-                G.nodes[node]['cluster'] = i+1  
+                G.nodes[node]['cluster'] = i+1
+                
+        #cluster_list = cluster_list
+        '''
         print(cluster_list)
         print(type(cluster_list))
         print('wut')
@@ -70,6 +73,8 @@ def network_stuff(files, model):
         print(list(cluster_list[0]))
         print('wut2')
         time.sleep(1000)
+        '''
+        return cluster_list
        
     def get_node_color(node):
         color_indices = list(range(0,20))
@@ -86,7 +91,7 @@ def network_stuff(files, model):
             
         return color
         
-    set_cluster_number(G, clusters)
+    cluster_list = set_cluster_number(G, clusters)
     
     options = {'with_labels': True, 
                'node_color':[get_node_color(G.nodes[n]) for n in G.nodes],
@@ -94,9 +99,52 @@ def network_stuff(files, model):
                'font_size': 10}
     positions = nx.kamada_kawai_layout(G)
 
-    plt.figure(figsize=(20,10))
+    plt.figure(figsize=(30,15))
+    
+    #Checking if I can annotate:
+    #plt.annotate('x',(0.45, -0.1)) I can 
+    
+    #Calculating the center
+    
     nx.draw(G, positions, **options)
     
     plt.savefig( "g.png" )
+    
+    print(type(positions))
+    
+    node_number = 0
+    x_coords = []
+    y_coords = []
+    for i in range(len(cluster_list)):
+        set_as_list = list(cluster_list[i])
+        for j in range(len(set_as_list)): #Name within a cluster
+            x_coords.append(positions[set_as_list[j]][0])
+            y_coords.append(positions[set_as_list[j]][1])
+
+            node_number += 1
+            
+    average_x = sum(x_coords) / node_number
+    average_y = sum(y_coords) / node_number
+    
+    print(average_x)
+    print(average_y)
+    plt.annotate('xxx',(0.45,-0.1))
+    
+    #or i in range(len(positions.keys())):
+    #    pass
+    
+    
+    #Calculating positions
+    
+    #Calculating absolute center
+    
+    #for i in range(len(cluster_list)):
+    #    set_as_list = list(cluster_list[i])
+    #    for j in range(len(set_as_list)):
+    #        print(set_as_list[j])
+    
+    print(positions)
+    print('wut')
+    time.sleep(1000)
     
     return cluster_list
