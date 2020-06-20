@@ -71,8 +71,8 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         cluster_text_split_list = [item for sublist in cluster_text_split_list for item in sublist]
         cluster_word_list = [item for sublist in cluster_word_list for item in sublist]
     
-        print(cluster_text_list)
-        print(len(cluster_text_list))
+        #print(cluster_text_list)
+        #print(len(cluster_text_list))
         
         content_word_list = content_filter(cluster_word_list)
 
@@ -82,6 +82,15 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         
         custom_words = ['RT','rt','','-','I\'m','@','—','.'] #Second pass at removing other stopwords 
         fdist1_most_common = [i for i in fdist1_most_common if i[0] not in (custom_words or stopwords)]
+        
+        print(type(fdist1_most_common))
+        time.sleep(5)
+        '''
+        distribution_variable = []
+        fdist1_most_common_keys = fdist1_most_common.keys()
+        #for i in range(len(fdist1_most_common)):
+        '''
+        
         
         #print(fdist1_most_common)
         frequency_unigram_stats.append(fdist1_most_common)
@@ -118,7 +127,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         
             bigram_master.extend(filtered)
             
-        print(bigram_master)
+        #print(bigram_master)
         
             
         fdistbigram = FreqDist(bigram_master)
@@ -140,6 +149,8 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         
         text = 'Andrew M. Yang[1] (born January 13, 1975) is an American political commentator, entrepreneur, lawyer, and philanthropist. Originally a corporate lawyer, Yang began working in various startups and early stage growth companies as a founder or executive from 2000 to 2009. In 2011, he founded Venture for America (VFA), a nonprofit organization focused on creating jobs in cities struggling to recover from the Great Recession. He then ran as a candidate in the 2020 Democratic presidential primaries.'
         
+        
+        
         wordcloud = WordCloud().generate(text)
         
         plt.figure()
@@ -150,7 +161,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         time.sleep(3)
         #word_cloud_generator.generate_cloud()
         
-        plt.show()
+        #plt.show()
     
     '''                
     print(cluster_text_list)

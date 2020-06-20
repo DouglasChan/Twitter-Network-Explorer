@@ -23,7 +23,7 @@ def network_stuff(files, model):
         print('----------') #Separating similarity scores in raw output    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.50]; #Uses similarity scores as the basis for drawing edges in the graph. 
+    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.425]; #Uses similarity scores as the basis for drawing edges in the graph. 
                                                                                          #This parameter will vary depending on the size of the network.    
     print('There are ' + str(len(G)) + ' nodes being compared.')
     print('There are ' + str(len(G.edges)) + ' edges in the network.')
@@ -99,7 +99,7 @@ def network_stuff(files, model):
                'font_size': 10}
     positions = nx.kamada_kawai_layout(G)
 
-    plt.figure(figsize=(30,15))
+    plt.figure(figsize=(40,20))
     
     #Checking if I can annotate:
     #plt.annotate('x',(0.45, -0.1)) I can 
@@ -108,27 +108,45 @@ def network_stuff(files, model):
     
     nx.draw(G, positions, **options)
     
-    plt.savefig( "g.png" )
+    
     
     print(type(positions))
     
-    node_number = 0
-    x_coords = []
-    y_coords = []
+    cluster_number = 1
+    #x_coords = []
+    #y_coords = []
     for i in range(len(cluster_list)):
         set_as_list = list(cluster_list[i])
+        
+        nodes_in_cluster = 0
+        
+        cluster_x_coords = []
+        cluster_y_coords = []
         for j in range(len(set_as_list)): #Name within a cluster
-            x_coords.append(positions[set_as_list[j]][0])
-            y_coords.append(positions[set_as_list[j]][1])
+            cluster_x_coords.append(positions[set_as_list[j]][0])
+            cluster_y_coords.append(positions[set_as_list[j]][1])
 
-            node_number += 1
+            nodes_in_cluster += 1
             
-    average_x = sum(x_coords) / node_number
-    average_y = sum(y_coords) / node_number
+        average_x = sum(cluster_x_coords) / nodes_in_cluster
+        average_y = sum(cluster_y_coords) / nodes_in_cluster
+        
+        plt.annotate(str(cluster_number),(average_x,average_y))
+        
+        #Location of the Word cloudsd
+        
+        plt.annotate('cloud ' + str(cluster_number), (average_x*1.4,average_y*1.4))
+        
+        cluster_number += 1
+        
+        
+        
     
     print(average_x)
     print(average_y)
-    plt.annotate('xxx',(0.45,-0.1))
+    plt.annotate('xxx',(0,0))
+    
+    plt.savefig( "g.png" )
     
     #or i in range(len(positions.keys())):
     #    pass
@@ -143,8 +161,8 @@ def network_stuff(files, model):
     #    for j in range(len(set_as_list)):
     #        print(set_as_list[j])
     
-    print(positions)
-    print('wut')
-    time.sleep(1000)
+    #print(positions)
+    #print('wut')
+    #time.sleep(1000)
     
     return cluster_list
