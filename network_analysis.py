@@ -101,7 +101,7 @@ def network_stuff(files, model):
                'font_size': 10}
     positions = nx.kamada_kawai_layout(G)
 
-    plt.figure(figsize=(40,20))
+    graph_figure = plt.figure(figsize=(40,20))
     
     #Checking if I can annotate:
     #plt.annotate('x',(0.45, -0.1)) I can 
@@ -149,7 +149,7 @@ def network_stuff(files, model):
     plt.annotate('origin',(0,0))
     
     plt.savefig( "g.png" )
-    graph_figure = plt
+    #graph_figure = plt
     
     #or i in range(len(positions.keys())):
     #    pass

@@ -36,7 +36,32 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
     #THIS SHOULD GO AT THE END AFTER THE .PNG FILES HAVE BEEN SAVED
     
     for i in range(len(cluster_coordinates)):
-    
+        
+        #Once closed, it may be gone from memory?
+        
+        time.sleep(10)
+        
+        graph_taken = graph_figure
+        
+        plt.annotate('********************',(0,0))
+        
+        #graph_figure, ax = graph_figure.subplots()
+        
+        print(type(graph_taken))
+        
+        #graph_taken.ann
+        
+        #plt.imshow(graph_taken)
+        
+        plt.show(graph_taken)
+        
+        #graph_figure.show()
+        
+        
+        print('wut')
+       
+        
+        '''
         img = mpimg.imread('cluster ' + str(i+1) + '.png')
         graph_image = mpimg.imread('g.png')
         
@@ -44,8 +69,15 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
         
         img, ax = plt.subplots()
         ax.imshow(graph_image, extent = [-1, 1, -1, 1])
-        ax.plot(x, x, '--', linewidth=5, color='firebrick')
-        plt.show()
+        ax.plot(x, x, '--', linewidth=3, color='firebrick')
+        '''
+        
+        
+        #img2 = mpimg.imread('cluster ' + str(i+1) + '.png')
+        #imagebox = OffsetImage(img2, zoom = 0.2)
+        #ab = AnnotationBbox(imagebox,(cluster_coordinates[i]))
+        
+        #plt.show()
         
         '''
         imagebox = OffsetImage(img, zoom = 0.2)
@@ -59,7 +91,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
     
     
     
-    graph_figure.show()
+    #graph_figure.show()
     
     #img = mpimg.imread('g.png') 
     #imgplot = plt.imshow(img)
@@ -81,7 +113,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
     
     
     
-    print('wut')
+    print('wutend')
     time.sleep(1000)
     
     frequency_unigram_stats = []
