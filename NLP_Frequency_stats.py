@@ -36,57 +36,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
     
     #THIS SHOULD GO AT THE END AFTER THE .PNG FILES HAVE BEEN SAVED
     
-    for i in range(len(cluster_coordinates)):
-        
-        #Once closed, it may be gone from memory?
-        
-        #time.sleep(3)
-        
-        graph_taken = graph_figure
-        
-        plt.annotate('********************',(cluster_coordinates[i]))
-        
-        #graph_figure, ax = graph_figure.subplots()
-        
-        print(type(graph_taken))
-        
-        #graph_taken.ann
-        
-        #plt.imshow(graph_taken)
-        
-        
-        
-        #graph_figure.show()
-        
-        
-        
-        print(ax)
-        print('wut')
-        
-    for i in range(len(cluster_coordinates)):
-        img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
-        imagebox_python = OffsetImage(img_orig, zoom = 0.25)
-        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-1][0]*1.5,cluster_coordinates[i-1][1]*1.5))
-        
-        ax.add_artist(annotation_box)
-        
-        #img, ax = plt.subplots()
-        
-        
-        #time.sleep(1000)
-        
-        
-        #ax.imshow(img_orig, extent = [-1, 1, -1, 1])
-        
-        #plt.show()
-        #ax.imshow(img_orig, extent = [cluster_coordinates[i][0]-0.1,cluster_coordinates[i][0]+0.1,cluster_coordinates[i][1]-0.1,cluster_coordinates[1]+0.1])
-        #f
-        #time.sleep(3)
-        #print('bazinga')
-        
-    plt.show()
+
     
-    #plt.show(graph_taken)
        
         
     '''
@@ -141,8 +92,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
     
     
     
-    print('wutend')
-    time.sleep(1000)
+    #print('wutend')
+    #time.sleep(1000)
     
     frequency_unigram_stats = []
     frequency_bigram_stats = []
@@ -201,7 +152,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         fdist1_most_common = [i for i in fdist1_most_common if i[0] not in (custom_words or stopwords)]
         
         print(type(fdist1_most_common))
-        time.sleep(5)
+        #time.sleep(5)
         
         unigram_distribution_variable = []
         
@@ -309,77 +260,37 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         #plt.imshow(wordcloud, interpolation='bilinear')
         
-        time.sleep(3)
+        #time.sleep(3)
         #word_cloud_generator.generate_cloud()
         
         wordcloud2.to_file('cluster ' + str(cluster_counter) + '.png') 
         cluster_counter += 1
         
         #plt.show()
-        
-    img = mpimg.imread('g.png') 
-    imgplot = plt.imshow(img)
     
-    '''                
-    print(cluster_text_list)
-    print(cluster_text_split_list)
-    print(cluster_word_list)
-    print(len(cluster_word_list))
-    print(cluster_word_list[0])
-    print(len(cluster_word_list[0]))
-    print(len(cluster_text_list))
-    print(len(cluster_text_list[0]))
-    print(len(cluster_text_split_list))
-    print(len(cluster_text_split_list[0]))
-    print('wut')
-    time.sleep(1000)
-    '''
+
+    for i in range(len(cluster_coordinates)):
+                
+        graph_taken = graph_figure
         
-    '''    
-   
-
-          
-
-            df = pd.DataFrame(fdist1_most_common, columns =['word', 'frequency'])
-            df.plot(kind = 'bar', x = 'word')
+        plt.annotate('********************',(cluster_coordinates[i]))
         
-
-            print('----------') # Subdiving data by bigrams
-
-            bigram_master = []
-
-            for bigram in range(len(text_list)):
-                word_list = []
-                word_list.append(text_list[bigram].split(" "))
+        print('wut')
         
-                word_output_list = 0
-            
-                for split_bigram_word in word_list: #Gets rid of nesting quirk
-                    word_output_list = split_bigram_word                
-            
-                bigrams = list(nltk.bigrams(word_output_list))
-            
-                filtered = []
-                for pairs in bigrams:
-                    if pairs[0].lower() in stopwords or pairs[1].lower() in stopwords:
-                        continue
-                    elif pairs[0].lower() in custom_words or pairs[1].lower() in custom_words:
-                        continue
-                    filtered.append(pairs)
-            
-                bigram_master.extend(filtered)
+    for i in range(len(cluster_coordinates)):
+        img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
+        imagebox_python = OffsetImage(img_orig, zoom = 0.425)
         
-            print(len(bigram_master))
+        imagebox_python.set_zorder(1)
         
-            fdistbigram = FreqDist(bigram_master)
-            fdistbigram_common = fdistbigram.most_common(50)
-            #frequency_
+        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)+4][0]*1.1,cluster_coordinates[i-len(cluster_coordinates)+4][1]*1.1),frameon=False)
+        
+        ax.add_artist(annotation_box)
+        ax.set_facecolor('none')
+        
+    plt.show()
+    
 
-            dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
-            dfbigram.plot(kind = 'bar', x = 'word')
-
-            #plt.show()       
-    '''
 if __name__ == '__main__':
     frequency_analysis()
     

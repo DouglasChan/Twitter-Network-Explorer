@@ -102,7 +102,8 @@ def network_stuff(files, model):
     positions = nx.kamada_kawai_layout(G)
 
     #graph_figure = plt.figure(figsize=(40,20))
-    graph_figure, ax = plt.subplots(figsize=(30,15))
+    graph_figure, ax = plt.subplots(figsize=(50,25))
+    ax.set_facecolor('none')
     #ax.set_xlim([-2, 2]) #Remove?
     #ax.set_ylim([-2, 2]) #Remove?
     
@@ -111,11 +112,27 @@ def network_stuff(files, model):
     
     #Calculating the center
     
+    #print(G.nodes)
+    #print(G.edges)
+    
+    #G.nodes.set_zorder(2)
+    
+    for node in G.nodes():
+        H = G.subgraph([node])
+        collection = nx.draw_networkx_nodes(H, positions)
+        collection.set_zorder(20)
+    
+    #print('wut')
+    #time.sleep(1000)
+    
     nx.draw(G, positions, **options)
     
+    #print(G.nodes)
+    #print('wut')
+    #time.sleep(1000)
     
     
-    print(type(positions))
+    #print(type(positions))
     
     cluster_number = 1
     #x_coords = []
