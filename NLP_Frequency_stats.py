@@ -13,7 +13,9 @@ from nltk import bigrams
 import time
 from wordcloud import WordCloud
 
-import word_cloud_generator
+#import word_cloud_generator
+import matplotlib.image as mpimg
+from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
 
 stopwords = nltk.corpus.stopwords.words('english')
 stopwords_unigram = ['RT','rt','','-','I\'m','@','—']
@@ -26,7 +28,37 @@ def content_filter(text):
     content = [w for w in text if w.lower() not in stopwords]
     return content
 
-def frequency_analysis(cluster_setlist): #Take from network_analysis
+def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Take from network_analysis
+    
+    print(cluster_coordinates)
+    
+    graph_figure.show()
+    
+    for i in range(len(cluster_coordinates)):
+        graph_figure.annotate('****************',cluster_coordinates[i])
+    
+    #img = mpimg.imread('g.png') 
+    #imgplot = plt.imshow(img)
+    
+    #fig, ax = plt.subplots()
+    
+    #ax.set_xlim(0,1)
+    #ax.set_ylim(0,1)
+    
+    #imgplot.set_xlim(0,1)
+    #imgplot.set_ylilm(0,1)
+    
+    #ax.set_xlim(0, 1)
+    #ax.set_ylim(0, 1)
+    
+    #plt.annotate('This_is_now_the_second_origin_test',(0.5,0.5))
+    
+    #plt.show()
+    
+    
+    
+    print('wut')
+    time.sleep(1000)
     
     frequency_unigram_stats = []
     frequency_bigram_stats = []
@@ -187,7 +219,7 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         plt.imshow(wordcloud)
         
         
-        wordcloud2 = WordCloud(collocations=False).generate(unigram_distribution_variable)
+        wordcloud2 = WordCloud(background_color = 'white', collocations=False).generate(unigram_distribution_variable)
         plt.figure()
         plt.imshow(wordcloud2)
         
@@ -200,6 +232,9 @@ def frequency_analysis(cluster_setlist): #Take from network_analysis
         cluster_counter += 1
         
         #plt.show()
+        
+    img = mpimg.imread('g.png') 
+    imgplot = plt.imshow(img)
     
     '''                
     print(cluster_text_list)
@@ -266,3 +301,4 @@ if __name__ == '__main__':
     
 #Ref : 
 #1. https://stackoverflow.com/questions/43954114/python-wordcloud-repetitve-words
+#2. https://www.science-emergence.com/Articles/How-to-insert-an-image-a-picture-or-a-photo-in-a-matplotlib-figure/

@@ -6,6 +6,8 @@ from networkx.algorithms.community import greedy_modularity_communities
 
 def network_stuff(files, model):
 
+    cluster_coordinates = []
+
     network_dict = {} #Per the code in the network lecture, a dictionary is used to keep track of edges *
     
     for tweet_document in files: #The file list is the most expanded json files up to the outermost level of the network.
@@ -137,16 +139,17 @@ def network_stuff(files, model):
         
         plt.annotate('cloud ' + str(cluster_number), (average_x*1.4,average_y*1.4))
         
+        cluster_coordinates.append((average_x,average_y))
+        
         cluster_number += 1
-        
-        
         
     
     print(average_x)
     print(average_y)
-    plt.annotate('xxx',(0,0))
+    plt.annotate('origin',(0,0))
     
     plt.savefig( "g.png" )
+    graph_figure = plt
     
     #or i in range(len(positions.keys())):
     #    pass
@@ -165,4 +168,8 @@ def network_stuff(files, model):
     #print('wut')
     #time.sleep(1000)
     
-    return cluster_list
+    #print(cluster_coordinates)
+    #print('wut')
+    #time.sleep(1000)
+    
+    return cluster_list, cluster_coordinates, graph_figure #, cluster_coordinates
