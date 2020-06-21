@@ -28,9 +28,10 @@ def content_filter(text):
     content = [w for w in text if w.lower() not in stopwords]
     return content
 
-def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Take from network_analysis
+def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): #Take from network_analysis
     
     print(cluster_coordinates)
+    
     
     
     #THIS SHOULD GO AT THE END AFTER THE .PNG FILES HAVE BEEN SAVED
@@ -39,11 +40,11 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
         
         #Once closed, it may be gone from memory?
         
-        time.sleep(6)
+        #time.sleep(3)
         
         graph_taken = graph_figure
         
-        plt.annotate('********************',(0,0.1*i))
+        plt.annotate('********************',(cluster_coordinates[i]))
         
         #graph_figure, ax = graph_figure.subplots()
         
@@ -59,10 +60,32 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
         
         
         
-        
+        print(ax)
         print('wut')
         
-    plt.show(graph_taken)
+    for i in range(len(cluster_coordinates)):
+        img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
+        imagebox_python = OffsetImage(img_orig, zoom = 0.05)
+        annotation_box = AnnotationBbox(imagebox_python,cluster_coordinates[i])
+        
+        ax.add_artist(annotation_box)
+        
+        #img, ax = plt.subplots()
+        
+        
+        #time.sleep(1000)
+        
+        
+        #ax.imshow(img_orig, extent = [-1, 1, -1, 1])
+        
+        plt.show()
+        #ax.imshow(img_orig, extent = [cluster_coordinates[i][0]-0.1,cluster_coordinates[i][0]+0.1,cluster_coordinates[i][1]-0.1,cluster_coordinates[1]+0.1])
+        #f
+        #time.sleep(3)
+        #print('bazinga')
+        
+        
+    #plt.show(graph_taken)
        
         
     '''

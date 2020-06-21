@@ -1,6 +1,7 @@
 import twitter_mention_frequency, twitter_get_user_timeline
 import NLP_stats_repackaged, Doc_to_Vec_Refactored
 import network_analysis, network_crawler
+import NLP_Frequency_stats
 
 from nltk import FreqDist
 import sys
@@ -30,12 +31,20 @@ def downloading_json(handle): #This function checks if the .jsonl file has been 
 def getting_file_names(most_mentioned_list):
     f_name_list = [] #List of json files in the closests neighbors...
     
+    #print(most_mentioned_list)
+    #print('wutmain')
+    #time.sleep(1000)
+    
     for i in range(network_neighbors): #The function checks for the most mentioned neighbors specified by network_neighbors parameter.
-        if len(most_mentioned_list) != 0: #Making sure it's not an empty list -- empty users / protected tweets may break the program.
+        try:
+        #if len(most_mentioned_list) != 0: #Making sure it's not an empty list -- empty users / protected tweets may break the program.
+            
             f_name_list.append('user_timeline_' + most_mentioned_list[i][0] + '.jsonl')
             downloading_json(most_mentioned_list[i][0]) #Wait for program to verify that the requisite .jsonl files associated with the user has been downloaded first before proceeding
-        else:
-            raise Exception("We weren't able to get all the raw data.")
+        except Exception as e:
+            print(e)
+            continue #Pay attention here, if there's nothing there...hopefully this brings it back up?
+            
     
     return f_name_list
         
@@ -49,9 +58,9 @@ def nlp_similarity(json_list): #* May remove -- could come in more useful when c
         
         fdist = NLP_stats_repackaged.getting_frequency(content_word_list)
         
-        print(fdist)
-        print('wut')
-        time.sleep(1000)
+        #print(fdist)
+        #print('wut')
+        #time.sleep(1000)
 
 if __name__ == '__main__':
 
@@ -61,7 +70,9 @@ if __name__ == '__main__':
 
     doc_model = Doc_to_Vec_Refactored.doc_similarity(json_filenames)
      
-    network_analysis.network_stuff(json_filenames, doc_model)
+    cluster_list, cluster_coordinates, graph_figure, ax = network_analysis.network_stuff(json_filenames, doc_model)
+    
+    NLP_Frequency_stats.frequency_analysis(cluster_list, cluster_coordinates, graph_figure, ax)
     
     nlp_similarity(json_filenames)
     

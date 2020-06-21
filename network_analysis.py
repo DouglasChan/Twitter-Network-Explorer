@@ -101,7 +101,10 @@ def network_stuff(files, model):
                'font_size': 10}
     positions = nx.kamada_kawai_layout(G)
 
-    graph_figure = plt.figure(figsize=(40,20))
+    #graph_figure = plt.figure(figsize=(40,20))
+    graph_figure, ax = plt.subplots(figsize=(30,15))
+    #ax.set_xlim([-2, 2]) #Remove?
+    #ax.set_ylim([-2, 2]) #Remove?
     
     #Checking if I can annotate:
     #plt.annotate('x',(0.45, -0.1)) I can 
@@ -172,4 +175,4 @@ def network_stuff(files, model):
     #print('wut')
     #time.sleep(1000)
     
-    return cluster_list, cluster_coordinates, graph_figure #, cluster_coordinates
+    return cluster_list, cluster_coordinates, graph_figure, ax #, cluster_coordinates
