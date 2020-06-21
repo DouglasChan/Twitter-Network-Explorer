@@ -39,11 +39,11 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
         
         #Once closed, it may be gone from memory?
         
-        time.sleep(10)
+        time.sleep(6)
         
         graph_taken = graph_figure
         
-        plt.annotate('********************',(0,0))
+        plt.annotate('********************',(0,0.1*i))
         
         #graph_figure, ax = graph_figure.subplots()
         
@@ -53,41 +53,45 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
         
         #plt.imshow(graph_taken)
         
-        plt.show(graph_taken)
+        
         
         #graph_figure.show()
         
         
+        
+        
         print('wut')
+        
+    plt.show(graph_taken)
        
         
-        '''
-        img = mpimg.imread('cluster ' + str(i+1) + '.png')
-        graph_image = mpimg.imread('g.png')
-        
-        x = range(-1,1)
-        
-        img, ax = plt.subplots()
-        ax.imshow(graph_image, extent = [-1, 1, -1, 1])
-        ax.plot(x, x, '--', linewidth=3, color='firebrick')
-        '''
-        
-        
-        #img2 = mpimg.imread('cluster ' + str(i+1) + '.png')
-        #imagebox = OffsetImage(img2, zoom = 0.2)
-        #ab = AnnotationBbox(imagebox,(cluster_coordinates[i]))
-        
-        #plt.show()
-        
-        '''
-        imagebox = OffsetImage(img, zoom = 0.2)
-        
-        ab = AnnotationBbox(imagebox, (cluster_coordinates[i]))
-        
-        graph_figure.annotate('****************',cluster_coordinates[i])
-        
-        graph_figure.add_artist(ab)
-        '''
+    '''
+    img = mpimg.imread('cluster ' + str(i+1) + '.png')
+    graph_image = mpimg.imread('g.png')
+    
+    x = range(-1,1)
+    
+    img, ax = plt.subplots()
+    ax.imshow(graph_image, extent = [-1, 1, -1, 1])
+    ax.plot(x, x, '--', linewidth=3, color='firebrick')
+    '''
+    
+    
+    #img2 = mpimg.imread('cluster ' + str(i+1) + '.png')
+    #imagebox = OffsetImage(img2, zoom = 0.2)
+    #ab = AnnotationBbox(imagebox,(cluster_coordinates[i]))
+    
+    #plt.show()
+    
+    '''
+    imagebox = OffsetImage(img, zoom = 0.2)
+    
+    ab = AnnotationBbox(imagebox, (cluster_coordinates[i]))
+    
+    graph_figure.annotate('****************',cluster_coordinates[i])
+    
+    graph_figure.add_artist(ab)
+    '''
     
     
     
