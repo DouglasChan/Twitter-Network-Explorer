@@ -32,10 +32,21 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
     
     print(cluster_coordinates)
     
-    graph_figure.show()
+    
+    #THIS SHOULD GO AT THE END AFTER THE .PNG FILES HAVE BEEN SAVED
     
     for i in range(len(cluster_coordinates)):
+        img = mpimg.imread('cluster ' + str(i+1) + '.png')
+        
+        imagebox = OffsetImage(img, zoom = 0.2)
+        
+        ab = AnnotationBbox(imagebox, (cluster_coordinates[i]))
+        
         graph_figure.annotate('****************',cluster_coordinates[i])
+    
+    
+    
+    graph_figure.show()
     
     #img = mpimg.imread('g.png') 
     #imgplot = plt.imshow(img)
