@@ -65,8 +65,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
     for i in range(len(cluster_coordinates)):
         img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
-        imagebox_python = OffsetImage(img_orig, zoom = 0.05)
-        annotation_box = AnnotationBbox(imagebox_python,cluster_coordinates[i])
+        imagebox_python = OffsetImage(img_orig, zoom = 0.25)
+        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-1][0]*1.5,cluster_coordinates[i-1][1]*1.5))
         
         ax.add_artist(annotation_box)
         
@@ -78,13 +78,14 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         #ax.imshow(img_orig, extent = [-1, 1, -1, 1])
         
-        plt.show()
+        #plt.show()
         #ax.imshow(img_orig, extent = [cluster_coordinates[i][0]-0.1,cluster_coordinates[i][0]+0.1,cluster_coordinates[i][1]-0.1,cluster_coordinates[1]+0.1])
         #f
         #time.sleep(3)
         #print('bazinga')
         
-        
+    plt.show()
+    
     #plt.show(graph_taken)
        
         
