@@ -36,13 +36,26 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure): #Tak
     #THIS SHOULD GO AT THE END AFTER THE .PNG FILES HAVE BEEN SAVED
     
     for i in range(len(cluster_coordinates)):
+    
         img = mpimg.imread('cluster ' + str(i+1) + '.png')
+        graph_image = mpimg.imread('g.png')
         
+        x = range(-1,1)
+        
+        img, ax = plt.subplots()
+        ax.imshow(graph_image, extent = [-1, 1, -1, 1])
+        ax.plot(x, x, '--', linewidth=5, color='firebrick')
+        plt.show()
+        
+        '''
         imagebox = OffsetImage(img, zoom = 0.2)
         
         ab = AnnotationBbox(imagebox, (cluster_coordinates[i]))
         
         graph_figure.annotate('****************',cluster_coordinates[i])
+        
+        graph_figure.add_artist(ab)
+        '''
     
     
     
@@ -313,3 +326,5 @@ if __name__ == '__main__':
 #Ref : 
 #1. https://stackoverflow.com/questions/43954114/python-wordcloud-repetitve-words
 #2. https://www.science-emergence.com/Articles/How-to-insert-an-image-a-picture-or-a-photo-in-a-matplotlib-figure/
+
+#zorder?
