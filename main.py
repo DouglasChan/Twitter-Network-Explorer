@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     doc_model = Doc_to_Vec_Refactored.doc_similarity(json_filenames)
      
-    cluster_list, cluster_coordinates, graph_figure, ax = network_analysis.network_stuff(json_filenames, doc_model)
+    cluster_list, cluster_coordinates, graph_figure, ax = network_analysis.network_building(json_filenames, doc_model)
     
     NLP_Frequency_stats.frequency_analysis(cluster_list, cluster_coordinates, graph_figure, ax)
     

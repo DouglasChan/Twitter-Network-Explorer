@@ -3,20 +3,19 @@ from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import time
 from networkx.algorithms.community import greedy_modularity_communities
-#Test
 
-def network_stuff(files, model):
+def network_building(files, model):
 
     cluster_coordinates = []
 
-    network_dict = {} #Per the code in the network lecture, a dictionary is used to keep track of edges *
+    network_dict = {} #Per the code in the network lecture, a dictionary is used to keep track of edges.
     
     for tweet_document in files: #The file list is the most expanded json files up to the outermost level of the network.
     
         for tweet_document_compare in files: #Comparing each Twitter user to each other Twiter user
             
             similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
-            print("This is the similarity for %s, and %s. It is %s." %(tweet_document[14:-6], tweet_document_compare[14:-6], similarity))
+            print("This is the similarity for %s, and %s. It is %s." %(tweet_document[14:-6], tweet_document_compare[14:-6], similarity)) 
             
             tweet_1_name = tweet_document[14:-6] #For visualization of the users, we take the name of jsonl files and scrub off the prefix and suffix of the users being compared
             tweet_2_name = tweet_document_compare[14:-6]
@@ -26,8 +25,8 @@ def network_stuff(files, model):
         print('----------') #Separating similarity scores in raw output    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.425]; #Uses similarity scores as the basis for drawing edges in the graph. 
-                                                                                         #This parameter will vary depending on the size of the network. 42.5, 57.5    
+    _ = [G.add_edge(i[0], i[1], weight = sim_score) for i,sim_score in network_dict.items() if sim_score > 0.425]; #Uses similarity scores as the basis for drawing edges in the graph. This parameter sim_score ranges from 0 to 1.
+                                                                                          
     print('There are ' + str(len(G)) + ' nodes being compared.')
     print('There are ' + str(len(G.edges)) + ' edges in the network.')
     
@@ -64,19 +63,8 @@ def network_stuff(files, model):
     def set_cluster_number(G, cluster_list): #This cluster number function is used to assign a numerical value to the clusters generated through the greedy modularity algorithm for community detection.
         for i, cluster in enumerate(cluster_list):
             for node in cluster:
-                G.nodes[node]['cluster'] = i #Was i + 1
+                G.nodes[node]['cluster'] = i 
                 
-        #cluster_list = cluster_list
-        '''
-        print(cluster_list)
-        print(type(cluster_list))
-        print('wut')
-        print(type(cluster_list[0]))
-        print(type(list(cluster_list[0])))
-        print(list(cluster_list[0]))
-        print('wut2')
-        time.sleep(1000)
-        '''
         return cluster_list
        
     def get_node_color(node):
@@ -84,7 +72,7 @@ def network_stuff(files, model):
         color_list = ['red','green','blue','yellow','orange',\
                     'pink','brown','purple','olive','cyan',\
                     'gold','dodgerblue','plum','crimson','silver',\
-                    'indianred','peachpuff','honeydew','cornflowerblue','fuchsia']
+                    'indianred','peachpuff','honeydew','cornflowerblue','fuchsia'] #Clusters' colors will corresopnd to the values in this color_list
     
         if node['cluster'] in color_indices:
             color = color_list[node['cluster']]
@@ -100,26 +88,14 @@ def network_stuff(files, model):
                'node_color':[get_node_color(G.nodes[n]) for n in G.nodes],
                'edge_color':'grey',
                'font_size': 10}
-    positions = nx.kamada_kawai_layout(G)
+               
+    positions = nx.kamada_kawai_layout(G) #Uses force-directed graph drawing, and the Kawada-Kawai algrotihm.
 
-    #graph_figure = plt.figure(figsize=(40,20))
-    graph_figure, ax = plt.subplots(figsize=(300,150))
+    graph_figure, ax = plt.subplots(figsize=(300,150)) #Graph created using subplots -- Doing so enables us to draw both word clouds and the network on the same figure.
     ax.set_facecolor('none')
-    #ax.set_xlim([-2, 2]) #Remove?
-    #ax.set_ylim([-2, 2]) #Remove?
-    
-    #Checking if I can annotate:
-    #plt.annotate('x',(0.45, -0.1)) I can 
-    
-    #Calculating the center
-    
-    #print(G.nodes)
-    #print(G.edges)
-    
-    #G.nodes.set_zorder(2)
     
     '''
-    IF I WANT TO TRY ZORDER
+    Experimental Code to display nodes in foreground relative to the word cloud objects.
     '''
     
     #for node in G.nodes():
@@ -127,21 +103,21 @@ def network_stuff(files, model):
     #    collection = nx.draw_networkx_nodes(H, positions)
     #    collection.set_zorder(3)
     
-    #print('wut')
-    #time.sleep(1000)
-    
     nx.draw(G, positions, **options)
     
-    #print(G.nodes)
-    #print('wut')
-    #time.sleep(1000)
-    
-    
-    #print(type(positions))
-    
     cluster_number = 1
-    #x_coords = []
-    #y_coords = []
+    
+    '''
+    Cluster locations are important for automatically positioning the word clouds onto the combined network / word cloud figure. 
+    
+    Since the kamada kawai algorithm centers the figure at 0, 0 with height and width spanning from approximately -1 to 1, 
+    we can use this fact to automatically position the word clouds. 
+    
+    The distance from the center of the network figure, to the center of a given cluster, times a certain ratio is what I decided on. 
+    Choosing this distance should make a word cloud appear radially outward on the periphery of a given cluster, 
+    but in close proximity enough to give useful information on the frequent words associated with a cluster. 
+    '''
+
     for i in range(len(cluster_list)):
         set_as_list = list(cluster_list[i])
         
@@ -158,43 +134,11 @@ def network_stuff(files, model):
         average_x = sum(cluster_x_coords) / nodes_in_cluster
         average_y = sum(cluster_y_coords) / nodes_in_cluster
         
-        plt.annotate(str(cluster_number),(average_x,average_y))
-        
-        #Location of the Word cloudsd
-        
-        plt.annotate('cloud ' + str(cluster_number), (average_x*1.4,average_y*1.4))
-        
         cluster_coordinates.append((average_x,average_y))
-        
         cluster_number += 1
         
+    #plt.annotate('origin',(0,0)) This can be uncommented if one wants to verify the center of the figure. 
     
-    print(average_x)
-    print(average_y)
-    plt.annotate('origin',(0,0))
-    
-    plt.savefig( "g.png" )
-    #graph_figure = plt
-    
-    #or i in range(len(positions.keys())):
-    #    pass
-    
-    
-    #Calculating positions
-    
-    #Calculating absolute center
-    
-    #for i in range(len(cluster_list)):
-    #    set_as_list = list(cluster_list[i])
-    #    for j in range(len(set_as_list)):
-    #        print(set_as_list[j])
-    
-    #print(positions)
-    #print('wut')
-    #time.sleep(1000)
-    
-    #print(cluster_coordinates)
-    #print('wut')
-    #time.sleep(1000)
+    plt.savefig( "network_graph.png" )
     
     return cluster_list, cluster_coordinates, graph_figure, ax #, cluster_coordinates

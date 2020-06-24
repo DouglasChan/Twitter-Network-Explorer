@@ -33,6 +33,8 @@ Doc_to_Vec_Refactored.py : Takes all the text data from every single user, conve
 
 network_crawler.py : Obtains the names of Twitter users in a network. Depending on the number of neighbors specified per node, and the depth of levels to search, the crawler will use top mentioned users (as counted by the file "twitter_mention_frequency.py" as the basis of downloading jsonl files. 
 
+network_analysis.py : This file takes the similarity scores calculated within the "Doc_to_Vec_Refactored.py file and reconfigures each user into a network based on similarity. Nodes that fall below a certain threshold of similarity will not be displayed along with edges that do not represent enough similarity. Clustering in this newly formed network object is also performed here using a greedy algorithm.
+
 
 # Setting
 
@@ -51,6 +53,9 @@ Facts & process
 Network crawler
 The true number of comparisons will be less due to accounts being in the top mentioned of multiple other people, or from protected / deactivated accounts.
 
+Similarity scores increasing with size of network.
+
+Make threshold similarity into an argument?
 
 * This is mean to be an example
 * Markdown is really fast
