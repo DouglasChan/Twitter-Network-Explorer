@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 def doc_similarity(json_filenames):
     stopwords = nltk.corpus.stopwords.words('english')
-    custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;'] #May be redundant?
+    custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;']
     stopwords.append(custom_words)
 
     tweet_corpus = [] #What is this?
@@ -26,7 +26,7 @@ def doc_similarity(json_filenames):
             
             for word in word_list:
                 if word not in stopwords:
-                    local_tweet_corpus.append(json.loads(line)['text']) #Adds to the variable specific to 
+                    local_tweet_corpus.append(json.loads(line)['text']) #Adds to the list of text for a specific user (local). This is in contrast to the list of all specified users' text corpora.
                     break
         
         local_tweet_as_one = ' '.join(map(str, local_tweet_corpus)) #Combines each tweet string with all other tweet strings from the same user collected.
@@ -42,13 +42,13 @@ def doc_similarity(json_filenames):
     #Building the model.
     model = gensim.models.Doc2Vec(size = 300, #Number of features of the Doc2Vec model
                               min_count = 3, #As with other vectorizers, ignores words with a total frequency lower than this.
-                              iter = 100)
+                              iter = 100) # The number of iterations
                               
     model.build_vocab(tweet_corpus)
     
     model.train(tweet_corpus, total_examples=model.corpus_count, epochs=model.epochs)
     
-    model.docvecs.most_similar(1) #Uses cosine similarity between the 20 lists within the larger tweet_corpus list. 
+    model.docvecs.most_similar(1) #Uses cosine similarity between the N (where N is the number of users in the whole network) lists within the larger tweet_corpus list. 
 
     doc2vec_scores = []
     

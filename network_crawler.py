@@ -34,7 +34,7 @@ def network_crawler(seed_handle, levels):
                 
                 most_common_list = twitter_mention_frequency.twitter_mentioning(combined_file_list[i-1][j]) #Uses the previously built function of getting top N twitter users in network by mention
                 
-                local_file_list = main.getting_file_names(most_common_list) #*.
+                local_file_list = main.getting_file_names(most_common_list)
                 
                 combined_file_list.append(local_file_list) 
         

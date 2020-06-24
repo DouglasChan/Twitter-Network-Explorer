@@ -4,7 +4,6 @@ from tweepy import Cursor
 from twitter_client import get_twitter_client
 
 #This file was used in the Mining Twitter with Python Tutorial Series by Sukhvinder Singh (Primarily video no. 15/28).
-#Specifically, this client helps us connect to the Twitter API using Tweepy.
 #This file interacts with *
 
 def getting_timeline(user):
@@ -16,7 +15,7 @@ def getting_timeline(user):
         for page in Cursor(client.user_timeline, screen_name = user, count = 200).pages(16): #Up to 3200 Tweets (Twitter limit?*)
             counter = 0
             for status in page: 
-                if counter % 4 == 0:
+                if counter % 4 == 0: #Tried collecting smaller subsections of Tweets. 
                     f.write(json.dumps(status._json)+"\n")
                     counter += 1
                 else:

@@ -31,10 +31,6 @@ def downloading_json(handle): #This function checks if the .jsonl file has been 
 def getting_file_names(most_mentioned_list):
     f_name_list = [] #List of json files in the closests neighbors...
     
-    #print(most_mentioned_list)
-    #print('wutmain')
-    #time.sleep(1000)
-    
     for i in range(network_neighbors): #The function checks for the most mentioned neighbors specified by network_neighbors parameter.
         try:
         #if len(most_mentioned_list) != 0: #Making sure it's not an empty list -- empty users / protected tweets may break the program.
@@ -44,8 +40,7 @@ def getting_file_names(most_mentioned_list):
         except Exception as e:
             print(e)
             continue #Pay attention here, if there's nothing there...hopefully this brings it back up?
-            
-    
+               
     return f_name_list
         
 def nlp_similarity(json_list): #* May remove -- could come in more useful when combining frequency data of groups?
@@ -57,10 +52,6 @@ def nlp_similarity(json_list): #* May remove -- could come in more useful when c
         content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out stopwords
         
         fdist = NLP_stats_repackaged.getting_frequency(content_word_list)
-        
-        #print(fdist)
-        #print('wut')
-        #time.sleep(1000)
 
 if __name__ == '__main__':
 
