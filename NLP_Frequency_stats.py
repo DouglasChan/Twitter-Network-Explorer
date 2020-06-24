@@ -171,7 +171,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         #print(fdist1_most_common)
         frequency_unigram_stats.append(fdist1_most_common) #Deprecate?
         
-        print(unigram_distribution_variable)
+        #print(unigram_distribution_variable)
         #unigram_distribution_variable = [item for sublist in unigram_distribution_variable for item in sublist]
         
         unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
@@ -233,10 +233,10 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         #time.sleep(1000)
         
         df = pd.DataFrame(fdist1_most_common, columns =['word', 'frequency'])
-        df.plot(kind = 'bar', x = 'word')
+        #df.plot(kind = 'bar', x = 'word')
         
         dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
-        dfbigram.plot(kind = 'bar', x = 'word')
+        #dfbigram.plot(kind = 'bar', x = 'word')
         
         #dfbigram2 = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
         #dfbigram2.plot(kind = 'bar', x = 'word')
@@ -251,12 +251,12 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         wordcloud = WordCloud().generate(text)
         
         plt.figure()
-        plt.imshow(wordcloud)
+        #plt.imshow(wordcloud)
         
         
         wordcloud2 = WordCloud(background_color = 'white', collocations=False).generate(unigram_distribution_variable)
         plt.figure()
-        plt.imshow(wordcloud2)
+        #plt.imshow(wordcloud2)
         
         #plt.imshow(wordcloud, interpolation='bilinear')
         
@@ -281,9 +281,9 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
         imagebox_python = OffsetImage(img_orig, zoom = 0.425)
         
-        imagebox_python.set_zorder(1)
+        #imagebox_python.set_zorder(1)
         
-        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)+4][0]*1.1,cluster_coordinates[i-len(cluster_coordinates)+4][1]*1.1),frameon=False)
+        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.45),frameon=False)
         
         ax.add_artist(annotation_box)
         ax.set_facecolor('none')

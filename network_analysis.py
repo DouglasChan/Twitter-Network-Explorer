@@ -3,6 +3,7 @@ from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import time
 from networkx.algorithms.community import greedy_modularity_communities
+#Test
 
 def network_stuff(files, model):
 
@@ -26,7 +27,7 @@ def network_stuff(files, model):
 
     G = nx.Graph()
     _ = [G.add_edge(i[0], i[1], weight = j) for i,j in network_dict.items() if j > 0.425]; #Uses similarity scores as the basis for drawing edges in the graph. 
-                                                                                         #This parameter will vary depending on the size of the network.    
+                                                                                         #This parameter will vary depending on the size of the network. 42.5, 57.5    
     print('There are ' + str(len(G)) + ' nodes being compared.')
     print('There are ' + str(len(G.edges)) + ' edges in the network.')
     
@@ -63,7 +64,7 @@ def network_stuff(files, model):
     def set_cluster_number(G, cluster_list): #This cluster number function is used to assign a numerical value to the clusters generated through the greedy modularity algorithm for community detection.
         for i, cluster in enumerate(cluster_list):
             for node in cluster:
-                G.nodes[node]['cluster'] = i+1
+                G.nodes[node]['cluster'] = i #Was i + 1
                 
         #cluster_list = cluster_list
         '''
@@ -102,7 +103,7 @@ def network_stuff(files, model):
     positions = nx.kamada_kawai_layout(G)
 
     #graph_figure = plt.figure(figsize=(40,20))
-    graph_figure, ax = plt.subplots(figsize=(50,25))
+    graph_figure, ax = plt.subplots(figsize=(300,150))
     ax.set_facecolor('none')
     #ax.set_xlim([-2, 2]) #Remove?
     #ax.set_ylim([-2, 2]) #Remove?
@@ -117,10 +118,14 @@ def network_stuff(files, model):
     
     #G.nodes.set_zorder(2)
     
-    for node in G.nodes():
-        H = G.subgraph([node])
-        collection = nx.draw_networkx_nodes(H, positions)
-        collection.set_zorder(20)
+    '''
+    IF I WANT TO TRY ZORDER
+    '''
+    
+    #for node in G.nodes():
+    #    H = G.subgraph([node])
+    #    collection = nx.draw_networkx_nodes(H, positions)
+    #    collection.set_zorder(3)
     
     #print('wut')
     #time.sleep(1000)
