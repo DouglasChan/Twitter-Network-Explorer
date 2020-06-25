@@ -2,7 +2,7 @@ import twitter_mention_frequency, twitter_get_user_timeline
 import NLP_stats_repackaged, Doc_to_Vec_Refactored
 import network_analysis, network_crawler
 import Cluster_Analysis_NLP_with_Word_Clouds
-import twitter_make_geojson
+import twitter_make_geojson, twitter_make_map
 
 from nltk import FreqDist
 import sys
@@ -41,7 +41,7 @@ def getting_file_names(most_mentioned_list):
             continue 
                
     return f_name_list
-        
+'''
 def nlp_similarity(json_list): #* May remove -- could come in more useful when combining frequency data of groups?
 
     for i in range(len(json_list)):
@@ -51,7 +51,7 @@ def nlp_similarity(json_list): #* May remove -- could come in more useful when c
         content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out stopwords
         
         fdist = NLP_stats_repackaged.getting_frequency(content_word_list)
-
+'''
 if __name__ == '__main__':
 
     json_filenames = network_crawler.network_crawler(first_handle, levels)
@@ -64,6 +64,8 @@ if __name__ == '__main__':
     
     geo_list = Cluster_Analysis_NLP_with_Word_Clouds.frequency_analysis(cluster_list, cluster_coordinates, graph_figure, ax)
 
-    twitter_make_geojson.main_geo_creator(geo_list)
+    larger_coordinates_list, larger_text_list, larger_name_list = twitter_make_geojson.main_geo_creator(geo_list)
     
+    twitter_make_map.make_map(larger_coordinates_list, larger_text_list, larger_name_list)
+
     
