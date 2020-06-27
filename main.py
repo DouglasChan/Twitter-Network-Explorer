@@ -64,8 +64,8 @@ if __name__ == '__main__':
     
     geo_list = Cluster_Analysis_NLP_with_Word_Clouds.frequency_analysis(cluster_list, cluster_coordinates, graph_figure, ax)
 
-    larger_coordinates_list, larger_text_list, larger_name_list = twitter_make_geojson.main_geo_creator(geo_list)
+    larger_coordinates_list, larger_text_list, larger_name_list, geo_list = twitter_make_geojson.main_geo_creator(geo_list)
     
-    twitter_make_map.make_map(larger_coordinates_list, larger_text_list, larger_name_list)
+    twitter_make_map.make_map(larger_coordinates_list, larger_text_list, larger_name_list, geo_list)
 
     

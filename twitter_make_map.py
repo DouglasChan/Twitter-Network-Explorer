@@ -3,20 +3,30 @@ import folium
 import json
 import time
     
-def make_map(larger_coordinates_list,larger_text_list,larger_name_list):
-    
-    #larger_coordinates_list = list(filter(None, larger_coordinates_list))
-    
-    #print(larger_coordinates_list)
-    #print(larger_coordinates_list[0])
-    #print(len(larger_coordinates_list))
-    #print(len(larger_coordinates_list[0]))
-    #print('wut')
-    #time.sleep(1000)
+def make_map(larger_coordinates_list,larger_text_list,larger_name_list,geo_list):
     
     for i in range(len(larger_coordinates_list)):
         coordinates_right_order = []
+        #print(len(larger_coordinates_list[0]))
+        #time.sleep(1000)
+        #print(i)
+        #print(larger_coordinates_list[i])
+        
+        if len(larger_coordinates_list[i]) != 0:
+            for j in range(len(larger_coordinates_list[i])):
+                print(larger_coordinates_list[i][j])
+        elif len(larger_coordinates_list[i]) == 0:
+            print('It was empty!')
+            print(larger_coordinates_list[i])
+            time.sleep(1)
+        '''
         for j in range(len(larger_coordinates_list[i])):
+            print(counter)
+            print('that was counter')
+            counter += 1
+            print(len(larger_coordinates_list[i]))
+            print('that was length')
+            print(larger_coordinates_list[i])
             local_list = []
             local_list.append(larger_coordinates_list[i][j][1])
             local_list.append(larger_coordinates_list[i][j][0])
@@ -30,7 +40,7 @@ def make_map(larger_coordinates_list,larger_text_list,larger_name_list):
             marker.add_to(sample_map)
     
         sample_map.save(map_file)
-
+        '''
 
 
     '''
