@@ -5,7 +5,10 @@ import time
     
 def make_map(larger_coordinates_list,larger_text_list,larger_name_list,geo_list):
     
+    geo_counter = 0
+    
     for i in range(len(larger_coordinates_list)):
+        
         coordinates_right_order = []
         #print(len(larger_coordinates_list[0]))
         #time.sleep(1000)
@@ -14,11 +17,40 @@ def make_map(larger_coordinates_list,larger_text_list,larger_name_list,geo_list)
         
         if len(larger_coordinates_list[i]) != 0:
             for j in range(len(larger_coordinates_list[i])):
-                print(larger_coordinates_list[i][j])
+                local_list = []
+                local_list.append(larger_coordinates_list[i][j][1])
+                local_list.append(larger_coordinates_list[i][j][0])
+                
+                coordinates_right_order.append(local_list)
+                
+            sample_map = folium.Map(location=[50,5], zoom_start=5)
+        
+            for j in range(len(larger_coordinates_list[i])):
+                name_list = larger_name_list[i]
+                text_list = larger_text_list[i]
+                print(name_list)
+                print(text_list)
+                #time.sleep(1)
+                
+                marker = folium.Marker(coordinates_right_order[i], popup=(name_list[j] + ':     ' + text_list[j]))
+                marker.add_to(sample_map)
+                
+                sample_map.save(geo_list[geo_counter][14:-6] + '.geo.json')
+                
+            geo_counter += 1
+                
         elif len(larger_coordinates_list[i]) == 0:
             print('It was empty!')
             print(larger_coordinates_list[i])
             time.sleep(1)
+            
+            geo_counter += 1
+            
+            
+        print('geo counter is ' + str(geo_counter))
+        #print(
+        
+        
         '''
         for j in range(len(larger_coordinates_list[i])):
             print(counter)
