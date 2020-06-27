@@ -44,7 +44,7 @@ def make_map(larger_coordinates_list,larger_text_list,larger_name_list,geo_list)
                 marker = folium.Marker(coordinates_right_order[j], popup=(name_list + ':     ' + text_list))
                 marker.add_to(sample_map)
             
-            sample_map.save(geo_list[geo_counter][14:-6] + '.geo.json')
+            sample_map.save(geo_list[geo_counter][14:-6] + '.html')
         
         elif len(larger_coordinates_list[i]) == 0:
             print('It was empty!')
