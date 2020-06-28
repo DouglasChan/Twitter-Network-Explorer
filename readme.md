@@ -70,7 +70,9 @@ main.py : Central file linking all subcomponents together. Ensures that .jsonl f
 8. Generating A Twitter Ego-Network & Detecting Communities : https://towardsdatascience.com/generating-twitter-ego-networks-detecting-ego-communities-93897883d255
 
 9. Readme structure was influenced by course TAs' capstone projects : Daria Aza & Patrick Min:
+
 9a. https://github.com/DariaAza/Deep-QLearning-Agent-for-Traffic-Signal-Control 
+
 9b. https://github.com/pwmin/Capstone-Project
 
 Licensed under the MIT License.
