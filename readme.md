@@ -1,5 +1,7 @@
 # Introduction
 
+This project was created for my Capstone at BrainStation as part of the Data Science Diploma program. I used graph theory, Natural Language Processing, and Unsupervised Machine Learning (a Doc2Vec model) to create a tool that will automatically identify users on Twitter that are mentioned by a starting user. These users' data are downloaded, and similarity scores based on linguistic profiles are generated and represented in a Network graph object. Output visualizations include geo overlayed tweets on maps, and Twitter networks with wordclouds associated with identified clusters. 
+
 # Packages
 tweepy (v 3.8.0)
 
