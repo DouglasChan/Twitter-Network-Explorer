@@ -53,28 +53,23 @@ main.py : Central file linking all subcomponents together. Ensures that .jsonl f
 
 1. Twitter tutorial -- Sukhvinder Singh -- https://www.youtube.com/watch?v=pVmCI9zIMbc&list=PLmcBskOCOOFW1SNrz6_yzCEKGvh65wYb9
 
-2. Sukhvinder's Github page for the course, "Mining Data on Twitter with Python" : https://github.com/karramsos/-Mining-Data-on-Twitter-with-Python
+2. Sukhvinder Singh's Github page for the course, "Mining Data on Twitter with Python" : https://github.com/karramsos/-Mining-Data-on-Twitter-with-Python
 
-3. Currie32's notebook, "Comparing Books with Word2Vec and Doc2Vec" : https://www.kaggle.com/currie32/comparing-books-with-word2vec-and-doc2vec
+3. David Currie's notebook, "Comparing Books with Word2Vec and Doc2Vec" : https://www.kaggle.com/currie32/comparing-books-with-word2vec-and-doc2vec
 
-4. 
+4. Generating A Twitter Ego-Network & Detecting Communities : https://towardsdatascience.com/generating-twitter-ego-networks-detecting-ego-communities-93897883d255
 
-Reference TA's structure of Readme file for organization of own readme
+5. Text Similarities : Estimate the degree of similarity between two texts : https://medium.com/@adriensieg/text-similarities-da019229c894
 
-Other resources
+6. Mining Twitter data : https://towardsdatascience.com/mining-twitter-data-ba4e44e6aecc
 
-Facts & process
+7. Tf-idf for Bigrams & Trigrams : https://www.geeksforgeeks.org/tf-idf-for-bigrams-trigrams/
 
-Network crawler
-The true number of comparisons will be less due to accounts being in the top mentioned of multiple other people, or from protected / deactivated accounts.
+8. Generating A Twitter Ego-Network & Detecting Communities : https://towardsdatascience.com/generating-twitter-ego-networks-detecting-ego-communities-93897883d255
 
-Similarity scores increasing with size of network.
-
-Make threshold similarity into an argument?
-
-* This is mean to be an example
-* Markdown is really fast
-* Pretty cool, right?
+9. Readme structure was influenced by course TAs' capstone projects : Daria Aza & Patrick Min:
+9a. https://github.com/DariaAza/Deep-QLearning-Agent-for-Traffic-Signal-Control 
+9b. https://github.com/pwmin/Capstone-Project
 
 * Get license
 
