@@ -2,10 +2,15 @@
 
 # Packages
 tweepy (v 3.8.0)
+
 json (v 2.0.9)
+
 nltk (v 3.4.5)
+
 gensim (v 3.8.3)
+
 networkx (v 2.3)
+
 matplotlib (v 3.1.1)
 
 # Getting Started & Running the Program
@@ -15,6 +20,10 @@ matplotlib (v 3.1.1)
 2. When you have consumer keys and access tokens generated, you can set these environment variables on your machine. Sukhvinder Singh goes through connecting to the Twitter API in this video : (https://www.youtube.com/watch?v=YhfXuS44oH4&list=PLmcBskOCOOFW1SNrz6_yzCEKGvh65wYb9&index=14 ). 
 
 3. Ensure you have the third-party packages mentioned above installed.
+
+4. To run the script, first ensure that you know the correct spelling of the Twitter handle you want to start with. In this example, we'll use Khan Academy (khanacademy). 
+
+5. In the directory with all of the scripts, we type: "python main.py khanacademy 5 2" without the quotations. We'll be exploring the network starting at Khan Academy, with 5 neighbors starting from the first node, and then 5 neighbors searched for each of those first level nodes for a depth level of 2.
 
 # Contents
 
@@ -47,6 +56,8 @@ main.py : Central file linking all subcomponents together. Ensures that .jsonl f
 2. Sukhvinder's Github page for the course, "Mining Data on Twitter with Python" : https://github.com/karramsos/-Mining-Data-on-Twitter-with-Python
 
 3. Currie32's notebook, "Comparing Books with Word2Vec and Doc2Vec" : https://www.kaggle.com/currie32/comparing-books-with-word2vec-and-doc2vec
+
+4. 
 
 Reference TA's structure of Readme file for organization of own readme
 
