@@ -3,11 +3,8 @@ import json
 from tweepy import Cursor
 from twitter_client import get_twitter_client
 
-#This file was used in the Mining Twitter with Python Tutorial Series by Sukhvinder Singh (Primarily video no. 15/28).
-#This file interacts with *
-
 def getting_timeline(user):
-    client = get_twitter_client() #Seems to be the rate limiting step...
+    client = get_twitter_client() #Seems to be the rate limiting step
     
     fname = "user_timeline_{}.jsonl".format(user)
     
@@ -31,10 +28,10 @@ if __name__ == "__main__":
 #While this successfully reduced the size of the file,
 #It did not decrease the runtime for acquiring the raw data.
 #This may have to do with the fact that reinitializing the Twitter client for each user
-#May be the rate limiting step.
+#And May be the rate limiting step.
 
 #In the future,
-#Could try customizing it so multiple users' data are collected within one client?
+#I Could try customizing it so multiple users' data are collected within one client?
 #In other words, Knowing that I could collect 100 people's data within 20 seconds, with 16 tweets each. 
 #Would need to figure out the minimum number of tweets that doesn't muck around with the similarity.
-#In previous tests, ~ 400 / 3200 isn't terrible. 
+#In previous tests, ~ 400 / 3200 does not decrease similarity substantially.

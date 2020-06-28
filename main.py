@@ -41,17 +41,7 @@ def getting_file_names(most_mentioned_list):
             continue 
                
     return f_name_list
-'''
-def nlp_similarity(json_list): #* May remove -- could come in more useful when combining frequency data of groups?
 
-    for i in range(len(json_list)):
-
-        text_list, text_split_list, word_list = NLP_stats_repackaged.NLP_per_user(json_list[i]) #The main function of the NLP file returns 3 variables.
-        
-        content_word_list = NLP_stats_repackaged.content_filter(word_list) #Filters out stopwords
-        
-        fdist = NLP_stats_repackaged.getting_frequency(content_word_list)
-'''
 if __name__ == '__main__':
 
     json_filenames = network_crawler.network_crawler(first_handle, levels)

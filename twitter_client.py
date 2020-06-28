@@ -1,10 +1,6 @@
 import os, sys
 from tweepy import API, OAuthHandler 
 
-#This file was used in the Mining Twitter with Python Tutorial Series by Sukhvinder Singh (Primarily video no. 15/28).
-#Specifically, this client helps us connect to the Twitter API using Tweepy.
-#This file interacts with *
-
 def get_twitter_auth():
     ''' Setup Twitter authentication.
     
