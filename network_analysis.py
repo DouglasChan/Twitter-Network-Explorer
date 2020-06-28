@@ -26,10 +26,7 @@ def network_building(files, model):
 
     G = nx.Graph()
     _ = [G.add_edge(i[0], i[1], weight = sim_score) for i,sim_score in network_dict.items() if sim_score > 0.425]; #Uses similarity scores as the basis for drawing edges in the graph. This parameter sim_score ranges from 0 to 1.
-                                                                                          
-    print('There are ' + str(len(G)) + ' nodes being compared.')
-    print('There are ' + str(len(G.edges)) + ' edges in the network.')
-    
+                                                                                              
     '''
     To get the clustering algorithm to work correctly, we must remove isolates in our network. 
     
@@ -72,7 +69,7 @@ def network_building(files, model):
         color_list = ['red','green','blue','yellow','orange',\
                     'pink','brown','purple','olive','cyan',\
                     'gold','dodgerblue','plum','crimson','silver',\
-                    'indianred','peachpuff','honeydew','cornflowerblue','fuchsia'] #Clusters' colors will corresopnd to the values in this color_list
+                    'indianred','peachpuff','honeydew','cornflowerblue','fuchsia'] #Clusters' colors will corresopnd to the values in this color_list. Here we assume that under 20 clusters will be found.
     
         if node['cluster'] in color_indices:
             color = color_list[node['cluster']]

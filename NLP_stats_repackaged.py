@@ -5,27 +5,6 @@ from nltk.corpus import stopwords
 from nltk import bigrams
 import time
 
-#This file takes in the filename as the first argument.
-
-def NLP_per_user(fname):
-    text_list = [] #Each item in text_list is the text from a single tweet
-    text_split_list = [] #Text split list is a nested list with each smallest item being a given word separated by spaces.
-    word_list = [] #Word list is a flat list of all the words from all the tweets. 
-    
-    with open(fname) as f: #Taking the JSON file and appending just the text information for each tweet.
-        for line in f:
-            tweet = json.loads(line)
-            text_list.append(tweet['text'])
-        
-    for i in range(len(text_list)): #Splits each tweet by word using space as a delimiter. 
-        text_split_list.append(text_list[i].split(" "))    
-    
-    for i in range(len(text_split_list)): #Adds all to single list
-        for j in range(len(text_split_list[i])):
-            word_list.append(text_split_list[i][j])
-     
-    return text_list, text_split_list, word_list
-    
 stopwords = stopwords.words('english')
     
 def content_filter(text): #This function and the one below are called by the main function.

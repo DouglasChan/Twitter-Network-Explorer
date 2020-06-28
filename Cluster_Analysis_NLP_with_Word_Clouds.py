@@ -130,7 +130,6 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         '''
         
         wordcloud = WordCloud(background_color = 'white', collocations=False).generate(unigram_distribution_variable)
-        #plt.figure()
         
         wordcloud.to_file('cluster ' + str(cluster_counter) + '.png') 
         cluster_counter += 1
@@ -141,7 +140,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         #imagebox_python.set_zorder(1) #An experimental part of the code for positioning zorder of nodes vs word clouds
         
-        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.45),frameon=False)
+        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.45),frameon=False) 
         
         '''
         As explained in the network_analysis.py file, the parameters in the line above control the ratio of positioning the word clouds from the distance between the origin and cluster center.

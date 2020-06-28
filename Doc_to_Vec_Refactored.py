@@ -16,7 +16,7 @@ def doc_similarity(json_filenames):
     custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;']
     stopwords.append(custom_words)
 
-    tweet_corpus = [] #What is this?
+    tweet_corpus = [] 
     
     for i in range(len(json_filenames)): #For each user
         local_tweet_corpus = []
