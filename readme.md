@@ -71,8 +71,4 @@ main.py : Central file linking all subcomponents together. Ensures that .jsonl f
 9a. https://github.com/DariaAza/Deep-QLearning-Agent-for-Traffic-Signal-Control 
 9b. https://github.com/pwmin/Capstone-Project
 
-* Get license
-
-#Ref : 
-#1. https://stackoverflow.com/questions/43954114/python-wordcloud-repetitve-words
-#2. https://www.science-emergence.com/Articles/How-to-insert-an-image-a-picture-or-a-photo-in-a-matplotlib-figure/
+Licensed under the MIT License.
