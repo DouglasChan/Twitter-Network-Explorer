@@ -16,7 +16,7 @@ import matplotlib.image as mpimg
 from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
 
 stopwords = nltk.corpus.stopwords.words('english')
-stopwords_unigram = ['RT','rt','','-','I\'m','@','—','.','&']
+stopwords_unigram = ['RT','rt','','-','I\'m','@','—','.','&','&amp','us','&amp']
 
 for i in range(len(stopwords_unigram)):
     stopwords.append(stopwords_unigram[i])
@@ -103,11 +103,95 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         #frequency_unigram_stats.append(fdist1_most_common)
         
         unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
+        ###
+
+        #print(cluster_text_list)
+        #print(len(cluster_text_list))
+
+        bigrams = [b for l in cluster_text_list for b in zip(l.split(" ")[:-1],l.split(" ")[1:])]
+
+        yes_counter = 0
+        no_counter = 0
+        remove_stopword_bigram = []
+        bigrams_pared = []
+
+        '''
+        for i in range(len(bigrams)):
+            if (bigrams[i][0] or bigrams[i][1] or bigrams[i][0].lower() or bigrams[i][1].lower()) in stopwords:
+                print('yes')
+                print('\n')
+                print(bigrams[i][0])
+                print(bigrams[i][1])
+                print(bigrams[i][0].lower())
+                print(bigrams[i][1].lower())
+                print('\n')
+                time.sleep(4)
+                yes_counter += 1
+                remove_stopword_bigram.append(i)
+                print(remove_stopword_bigram)
+                
+            else:
+                print('no')
+                no_counter += 1
+            #print('\n')'
+        '''
+            
+        #print(remove_stopword_bigram)
+        #time.sleep(1000)
         
-        print(unigram_distribution_variable)
-        print(type(unigram_distribution_variable))
+        bigram_filtered = []
+        bigram_discard = []
+        
+        for i in range(len(bigrams)):
+            if (bigrams[i][0] or bigrams[i][1] or bigrams[i][0].lower()) in stopwords:
+                print(bigrams[i][0])
+                print(bigrams[i][1])
+                bigram_discard.append(bigrams[i])
+                print('discard')
+                print('\n')
+            else:
+                bigram_filtered.append(bigrams[i])
+                print('filtered')
+                print('\n')
+
+            print(bigrams[i])
+            print('This is filtered.')
+            print(bigram_filtered)
+            print('This is discarded')
+            print(bigram_discard)
+            time.sleep(10)
+        
+        time.sleep(1000)
+                
+        for i in range(len(bigrams)):
+            if i not in remove_stopword_bigram:
+                bigrams_pared.append(bigrams[i])
+                
+        #for i in range(len(bigrams_without)):
+        #    bigrams_pared_2.append(bigrams[i])
+            
+        #print(bigrams_pared_2)
+        
+        #print(remove_stopword_bigram)
+        #print(bigrams_pared)
+        #print(yes_counter)
+        #print(no_counter)
+        #print(stopwords)
+        #print(len(bigrams))
+        #print(len(bigrams_pared))
+        #time.sleep(1000)
+
+        #print(stopwords)
+        
+        fdist2 = FreqDist(bigrams_pared_2)
+        fdist2_most_common = fdist2.most_common(50)
+        print(fdist2_most_common)
+
         time.sleep(1000)
         
+        #Bigram Link : https://stackoverflow.com/questions/21844546/forming-bigrams-of-words-in-list-of-sentences-with-python
+        
+        '''
         bigram_master = []
         
         for bigram in range(len(cluster_text_list)):
@@ -144,6 +228,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         df = pd.DataFrame(fdist1_most_common, columns =['word', 'frequency'])
         
         dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
+        '''
         
         '''
         This is the section of the program that generates word clouds
