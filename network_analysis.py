@@ -25,7 +25,7 @@ def network_building(files, model):
         print('----------') #Separating similarity scores in raw output    
 
     G = nx.Graph()
-    _ = [G.add_edge(i[0], i[1], weight = sim_score) for i,sim_score in network_dict.items() if sim_score > 0.425]; #Uses similarity scores as the basis for drawing edges in the graph. This parameter sim_score ranges from 0 to 1.
+    _ = [G.add_edge(i[0], i[1], weight = sim_score) for i,sim_score in network_dict.items() if sim_score > 0.4]; #Uses similarity scores as the basis for drawing edges in the graph. This parameter sim_score ranges from 0 to 1.
                                                                                               
     '''
     To get the clustering algorithm to work correctly, we must remove isolates in our network. 

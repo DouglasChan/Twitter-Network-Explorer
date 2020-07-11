@@ -13,7 +13,8 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 def doc_similarity(json_filenames):
     stopwords = nltk.corpus.stopwords.words('english')
-    custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;']
+    custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;','#','.','``','...',':','https','\'','’','“','\'s','‘','!','\'re',',','(','[','\'m','n\'t','\'ve','\'d']
+ 
     for i in range(len(custom_words)):
         stopwords.append(custom_words[i])
 
@@ -26,15 +27,22 @@ def doc_similarity(json_filenames):
             word_list = word_tokenize(json.loads(line)['text'])
            
             for word in word_list:
-                if word not in stopwords:
-                    local_tweet_corpus.append(json.loads(line)['text']) #Adds to the list of text for a specific user (local). This is in contrast to the list of all specified users' text corpora.
-                    print(json.loads(line)['text'])
-                    time.sleep(5)
+                #print(word)
+                #time.sleep(0.2)
+                #print(word_list)
+                #time.sleep(0.2)
+                if word.lower() not in stopwords:
+                    #print(word)
+                    #time.sleep(0.2)
+                    local_tweet_corpus.append(word) #Adds to the list of text for a specific user (local). This is in contrast to the list of all specified users' text corpora.
+                    print(local_tweet_corpus)
+                    time.sleep(0.005)
                     break
+        #time.sleep(10)
                     
-        print(local_tweet_corpus)
-        print(type(local_tweet_corpus))
-        time.sleep(1000)
+        #print(local_tweet_corpus)
+        #print(type(local_tweet_corpus))
+        #time.sleep(1000)
         
         local_tweet_as_one = ' '.join(map(str, local_tweet_corpus)) #Combines each tweet string with all other tweet strings from the same user collected.
         #Each individual tweet is separated by a space character, and the whole corpus is stored as a large string, per the requirements of the model shown below.
