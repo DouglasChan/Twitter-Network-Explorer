@@ -36,8 +36,8 @@ def network_crawler(seed_handle, levels):
                 
                 local_file_list = main.getting_file_names(most_common_list)
                 
-                combined_file_list.append(local_file_list) 
-        
+                combined_file_list.append(local_file_list)
+
         else:
             larger_file_list = []
             larger_handle_list = []
@@ -46,7 +46,7 @@ def network_crawler(seed_handle, levels):
                                                         #So if we were looking at the 6th degree of separation, we would be looking at network neighbors from the 5th degree of separation from the seed profile.
                                
                 most_common_list = twitter_mention_frequency.twitter_mentioning(combined_file_list[i-1][j])
-                
+
                 local_file_list = main.getting_file_names(most_common_list)
                 
                 larger_file_list.append(local_file_list) #This list of lists has to be used since at 2 or + degrees of separation, each exploration of new neighbors is its own list.
@@ -61,6 +61,7 @@ def network_crawler(seed_handle, levels):
                                             #The first is the seed profile, the second is their neighbors, and the third is the flat list of 2nd degree neighbors.
     
     json_filenames = combined_file_list
+    
     return json_filenames
             
 if __name__ == '__main__':
