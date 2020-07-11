@@ -19,6 +19,7 @@ levels = int(sys.argv[3]) #The degrees of separation of how far one would want t
 
 def downloading_json(handle): #This function checks if the .jsonl file has been downloaded to the directory.
     file_name = 'user_timeline_' + handle + '.jsonl' #Converts the handle to the filename of the existing json file.
+    
     for i in range(2):
         if path.exists(file_name) == False:
             time.sleep(6) #Sleep statements are necessary insertions here. If the program isn't given enough time to download a given json file, downloads will keep restarting until the end of the loop taking much longer.

@@ -19,7 +19,7 @@ def twitter_mentioning(fname):
         for user, count in users.most_common(150): #This parameter cites the 100 most mentioned users in someone's network. This can be tweaked without running up against the Tweepy limit
             print("{}: {}".format(user, count))
             common_list.append(tuple((user,count)))
-            
+
     return common_list
         
 if __name__ == '__main__':
