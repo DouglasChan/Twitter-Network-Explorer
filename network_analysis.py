@@ -21,12 +21,14 @@ def network_building(files, model):
             tweet_2_name = tweet_document_compare[14:-6]
             
             network_dict.setdefault((tweet_1_name, tweet_2_name), similarity)
-        
-        print('----------') #Separating similarity scores in raw output    
+  
+        print('----------') #Separating similarity scores in raw output         
 
     G = nx.Graph()
+    
+    
     _ = [G.add_edge(i[0], i[1], weight = sim_score) for i,sim_score in network_dict.items() if sim_score > 0.49]; #Uses similarity scores as the basis for drawing edges in the graph. This parameter sim_score ranges from 0 to 1.
-                                                                                              
+                                                                                             
     '''
     To get the clustering algorithm to work correctly, we must remove isolates in our network. 
     
@@ -37,10 +39,12 @@ def network_building(files, model):
     
     #Removing edges of nodes pointing to themselves.
     edge_list = list(G.edges)
+    
     edge_removal_list = []
     for i in range(len(edge_list)): #Checking if this edge is between a node and itself
         if edge_list[i][0] == edge_list[i][1]:
             edge_removal_list.append(edge_list[i])
+            
 
     #Using list created above to remove these edges from the graph object.
     for i in range(len(edge_removal_list)):
@@ -49,7 +53,7 @@ def network_building(files, model):
     '''
     Once the edges have been removed, we can use the inbuilt nx.isolates function to identify which nodes don't have connections to other nodes.
     '''
-    G.remove_nodes_from(list(nx.isolates(G)))
+    G.remove_nodes_from(list(nx.isolates(G))) #If wanted to include a node list, here would be a good place to put code.
     
     #Clustering portion
     
@@ -87,6 +91,7 @@ def network_building(files, model):
                'font_size': 10}
                
     positions = nx.kamada_kawai_layout(G) #Uses force-directed graph drawing, and the Kawada-Kawai algrotihm.
+    
 
     graph_figure, ax = plt.subplots(figsize=(300,150)) #Graph created using subplots -- Doing so enables us to draw both word clouds and the network on the same figure.
     ax.set_facecolor('none')
@@ -102,7 +107,7 @@ def network_building(files, model):
     
     nx.draw(G, positions, **options)
     
-    cluster_number = 1
+    #cluster_number = 1
     
     '''
     Cluster locations are important for automatically positioning the word clouds onto the combined network / word cloud figure. 
@@ -132,7 +137,8 @@ def network_building(files, model):
         average_y = sum(cluster_y_coords) / nodes_in_cluster
         
         cluster_coordinates.append((average_x,average_y))
-        cluster_number += 1
+
+        #cluster_number += 1
         
     #plt.annotate('origin',(0,0)) This can be uncommented if one wants to verify the center of the figure. 
     

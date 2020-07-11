@@ -41,7 +41,6 @@ def doc_similarity(json_filenames):
                     local_tweet_as_one), #local_tweet_as_one needs to be a long string, not a list.
                     ["{}".format(json_filenames[i])]))
                     
-       
     #Building the model.
     model = gensim.models.Doc2Vec(size = 300, #Number of features of the Doc2Vec model
                               min_count = 3, #As with other vectorizers, ignores words with a total frequency lower than this.
@@ -50,22 +49,18 @@ def doc_similarity(json_filenames):
     model.build_vocab(tweet_corpus)
     
     model.train(tweet_corpus, total_examples=model.corpus_count, epochs=model.epochs)
-    
-    #model.docvecs.most_similar(1) #Uses cosine similarity between the N (where N is the number of users in the whole network) lists within the larger tweet_corpus list. 
 
     doc2vec_scores = []
     
     ### Printing out the similarity scores to the terminal ###
     
-    for tweet_document in json_filenames:
-        #most_similar = model.docvecs.most_similar(tweet_document)[0][0]
-    
-        for tweet_document_compare in json_filenames:
-            similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
+    #for tweet_document in json_filenames:
+    #    for tweet_document_compare in json_filenames:
+    #        similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
             
-            print("This is the similarity for %s, and %s. It is %s." %(tweet_document, tweet_document_compare, similarity))
+    #        print("This is the similarity for %s, and %s. It is %s." %(tweet_document, tweet_document_compare, similarity))
         
-        print('----------') #Separating by user.
+    #    print('----------') #Separating by user.
     
     doc_model = model
     
