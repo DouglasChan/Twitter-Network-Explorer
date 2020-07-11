@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 def doc_similarity(json_filenames):
     stopwords = nltk.corpus.stopwords.words('english')
-    custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;','#','.','``','...',':','https','\'','’','“','\'s','‘','!','\'re',',','(','[','\'m','n\'t','\'ve','\'d']
+    custom_words = ['RT','rt','','-','I\m','@','--','|','I\'m','&amp;','#','.','``','...',':','https','\'','’','“','\'s','‘','!','\'re',',','(','[','\'m','n\'t','\'ve','\'d','&']
  
     for i in range(len(custom_words)):
         stopwords.append(custom_words[i])
@@ -27,22 +27,9 @@ def doc_similarity(json_filenames):
             word_list = word_tokenize(json.loads(line)['text'])
            
             for word in word_list:
-                #print(word)
-                #time.sleep(0.2)
-                #print(word_list)
-                #time.sleep(0.2)
                 if word.lower() not in stopwords:
-                    #print(word)
-                    #time.sleep(0.2)
                     local_tweet_corpus.append(word) #Adds to the list of text for a specific user (local). This is in contrast to the list of all specified users' text corpora.
-                    print(local_tweet_corpus)
-                    time.sleep(0.005)
                     break
-        #time.sleep(10)
-                    
-        #print(local_tweet_corpus)
-        #print(type(local_tweet_corpus))
-        #time.sleep(1000)
         
         local_tweet_as_one = ' '.join(map(str, local_tweet_corpus)) #Combines each tweet string with all other tweet strings from the same user collected.
         #Each individual tweet is separated by a space character, and the whole corpus is stored as a large string, per the requirements of the model shown below.
@@ -53,6 +40,7 @@ def doc_similarity(json_filenames):
                 gensim.utils.simple_preprocess(
                     local_tweet_as_one), #local_tweet_as_one needs to be a long string, not a list.
                     ["{}".format(json_filenames[i])]))
+                    
        
     #Building the model.
     model = gensim.models.Doc2Vec(size = 300, #Number of features of the Doc2Vec model
@@ -63,17 +51,18 @@ def doc_similarity(json_filenames):
     
     model.train(tweet_corpus, total_examples=model.corpus_count, epochs=model.epochs)
     
-    model.docvecs.most_similar(1) #Uses cosine similarity between the N (where N is the number of users in the whole network) lists within the larger tweet_corpus list. 
+    #model.docvecs.most_similar(1) #Uses cosine similarity between the N (where N is the number of users in the whole network) lists within the larger tweet_corpus list. 
 
     doc2vec_scores = []
     
     ### Printing out the similarity scores to the terminal ###
     
     for tweet_document in json_filenames:
-        most_similar = model.docvecs.most_similar(tweet_document)[0][0]
+        #most_similar = model.docvecs.most_similar(tweet_document)[0][0]
     
         for tweet_document_compare in json_filenames:
             similarity = model.docvecs.similarity(tweet_document,tweet_document_compare)
+            
             print("This is the similarity for %s, and %s. It is %s." %(tweet_document, tweet_document_compare, similarity))
         
         print('----------') #Separating by user.
