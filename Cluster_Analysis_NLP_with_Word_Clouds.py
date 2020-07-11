@@ -143,24 +143,50 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         bigram_discard = []
         
         for i in range(len(bigrams)):
-            if (bigrams[i][0] or bigrams[i][1] or bigrams[i][0].lower()) in stopwords:
-                print(bigrams[i][0])
-                print(bigrams[i][1])
+            print(bigrams[i])
+            print(bigrams[i][0])
+            first_condition = bigrams[i][0] in stopwords
+            print(first_condition)
+            print(bigrams[i][1])
+            second_condition = bigrams[i][1] in stopwords
+            print(second_condition)
+            if first_condition or second_condition == True:
                 bigram_discard.append(bigrams[i])
-                print('discard')
+            else:
+                bigram_filtered.append(bigrams[i])
+            print(bigram_discard)
+            print('^discard')
+            print(bigram_filtered)
+            print('^filtered')
+            time.sleep(12.5)
+        
+        '''
+        for i in range(len(bigrams)):
+            if (bigrams[i][0] and bigrams[i][1] and bigrams[i][0].lower() and bigrams[i][1].lower()) not in stopwords:
+                print(bigrams[i][0])
+                print('^First bigram')
+                print(bigrams[i][1])
+                print('^Second bigram')
+                bigram_discard.append(bigrams[i])
+                print('choice discard')
                 print('\n')
             else:
                 bigram_filtered.append(bigrams[i])
-                print('filtered')
+                print(bigrams[i][0])
+                print('^First bigram')
+                print(bigrams[i][1])
+                print('^Second bigram')
+                print('choice filtered')
                 print('\n')
 
             print(bigrams[i])
+            print('^ Original')
             print('This is filtered.')
             print(bigram_filtered)
             print('This is discarded')
             print(bigram_discard)
-            time.sleep(10)
-        
+            time.sleep(15)
+        '''
         time.sleep(1000)
                 
         for i in range(len(bigrams)):
