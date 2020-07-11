@@ -16,8 +16,14 @@ import matplotlib.image as mpimg
 from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
 
 stopwords = nltk.corpus.stopwords.words('english')
-stopwords_unigram = ['RT','rt','','-','I\'m','@','—']
-stopwords.append(stopwords_unigram)
+stopwords_unigram = ['RT','rt','','-','I\'m','@','—','.','&']
+
+for i in range(len(stopwords_unigram)):
+    stopwords.append(stopwords_unigram[i])
+
+#print(stopwords)
+#time.sleep(1000)
+
 geo_list = []
 
 def content_filter(text):
@@ -29,7 +35,7 @@ def content_filter(text):
 
 def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): #Take from network_analysis
     
-    frequency_unigram_stats = []
+    #frequency_unigram_stats = []
     frequency_bigram_stats = []
     cluster_counter = 1
     
@@ -57,11 +63,14 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
             for k in range(len(text_list)): #Splits each tweet by word using space as a delimiter. 
                 text_split_list.append(text_list[k].split(" "))
+                
+                #Where I would put new bigram?
         
             for k in range(len(text_split_list)): #Adds all to single list
                 for l in range(len(text_split_list[k])):
                     word_list.append(text_split_list[k][l])
                     
+
             cluster_text_list.append(text_list)
             cluster_text_split_list.append(text_split_list)
             cluster_word_list.append(word_list)
@@ -69,14 +78,21 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         cluster_text_list = [item for sublist in cluster_text_list for item in sublist] #Making cluster data into a flat list
         cluster_text_split_list = [item for sublist in cluster_text_split_list for item in sublist]
         cluster_word_list = [item for sublist in cluster_word_list for item in sublist]
-    
+        
         content_word_list = content_filter(cluster_word_list) #Applying filtering of stopwords to the words in the cluster
 
         fdist1 = FreqDist(content_word_list)
         fdist1_most_common = fdist1.most_common(50) #The N number of most common words most frequently used in a cluster
         
-        custom_words = ['RT','rt','','-','I\'m','@','—','.'] #Second pass at removing other stopwords 
-        fdist1_most_common = [i for i in fdist1_most_common if i[0] not in (custom_words or stopwords)]
+        
+        #custom_words = ['RT','rt','','-','I\'m','@','—','.'] #Second pass at removing other stopwords 
+        #fdist1_most_common = [i for i in fdist1_most_common if i[0] not in (custom_words or stopwords)]
+        
+        df_unigram = pd.DataFrame(fdist1_most_common, columns=['word','frequency'])
+        
+        df_unigram.plot(kind = 'bar', x = 'word')
+        
+        print(fdist1_most_common)
         
         unigram_distribution_variable = []
         
@@ -84,9 +100,13 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
             for j in range(fdist1_most_common[i][1]): #The number of times it appears.
                 unigram_distribution_variable.append(fdist1_most_common[i][0])
         
-        frequency_unigram_stats.append(fdist1_most_common)
+        #frequency_unigram_stats.append(fdist1_most_common)
         
         unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
+        
+        print(unigram_distribution_variable)
+        print(type(unigram_distribution_variable))
+        time.sleep(1000)
         
         bigram_master = []
         
@@ -133,6 +153,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         wordcloud.to_file('cluster ' + str(cluster_counter) + '.png') 
         cluster_counter += 1
+        
+        plt.show()
 
     for i in range(len(cluster_coordinates)):
         img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
@@ -154,4 +176,5 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
     return geo_list
     
 if __name__ == '__main__':
+    
     frequency_analysis()

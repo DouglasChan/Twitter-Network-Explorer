@@ -107,8 +107,6 @@ def network_building(files, model):
     
     nx.draw(G, positions, **options)
     
-    #cluster_number = 1
-    
     '''
     Cluster locations are important for automatically positioning the word clouds onto the combined network / word cloud figure. 
     
@@ -137,8 +135,6 @@ def network_building(files, model):
         average_y = sum(cluster_y_coords) / nodes_in_cluster
         
         cluster_coordinates.append((average_x,average_y))
-
-        #cluster_number += 1
         
     #plt.annotate('origin',(0,0)) This can be uncommented if one wants to verify the center of the figure. 
     
