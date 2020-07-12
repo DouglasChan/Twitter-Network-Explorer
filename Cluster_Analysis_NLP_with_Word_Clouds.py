@@ -89,6 +89,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
                 unigram_distribution_variable.append(fdist1_most_common[i][0])
         
         unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
+        
+        df_unigram.to_csv('unigram_{0}.tsv'.format(cluster_counter), sep='\t')
         ###
 
         bigrams = [b for l in cluster_text_list for b in zip(l.split(" ")[:-1],l.split(" ")[1:])]
