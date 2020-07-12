@@ -21,9 +21,6 @@ stopwords_unigram = ['RT','rt','','-','I\'m','@','—','.','&','&amp','us','&amp
 for i in range(len(stopwords_unigram)):
     stopwords.append(stopwords_unigram[i])
 
-#print(stopwords)
-#time.sleep(1000)
-
 geo_list = []
 
 def content_filter(text):
@@ -35,8 +32,6 @@ def content_filter(text):
 
 def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): #Take from network_analysis
     
-    #frequency_unigram_stats = []
-    frequency_bigram_stats = []
     cluster_counter = 1
     
     for cluster_list in range(len(cluster_setlist)):#Cluster_setlist is a list of networkx set objects.
@@ -63,14 +58,11 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
             for k in range(len(text_list)): #Splits each tweet by word using space as a delimiter. 
                 text_split_list.append(text_list[k].split(" "))
-                
-                #Where I would put new bigram?
         
             for k in range(len(text_split_list)): #Adds all to single list
                 for l in range(len(text_split_list[k])):
                     word_list.append(text_split_list[k][l])
                     
-
             cluster_text_list.append(text_list)
             cluster_text_split_list.append(text_split_list)
             cluster_word_list.append(word_list)
@@ -84,10 +76,6 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         fdist1 = FreqDist(content_word_list)
         fdist1_most_common = fdist1.most_common(50) #The N number of most common words most frequently used in a cluster
         
-        
-        #custom_words = ['RT','rt','','-','I\'m','@','—','.'] #Second pass at removing other stopwords 
-        #fdist1_most_common = [i for i in fdist1_most_common if i[0] not in (custom_words or stopwords)]
-        
         df_unigram = pd.DataFrame(fdist1_most_common, columns=['word','frequency'])
         
         df_unigram.plot(kind = 'bar', x = 'word')
@@ -100,159 +88,41 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
             for j in range(fdist1_most_common[i][1]): #The number of times it appears.
                 unigram_distribution_variable.append(fdist1_most_common[i][0])
         
-        #frequency_unigram_stats.append(fdist1_most_common)
-        
         unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
         ###
 
-        #print(cluster_text_list)
-        #print(len(cluster_text_list))
-
         bigrams = [b for l in cluster_text_list for b in zip(l.split(" ")[:-1],l.split(" ")[1:])]
 
-        yes_counter = 0
-        no_counter = 0
         remove_stopword_bigram = []
         bigrams_pared = []
-
-        '''
-        for i in range(len(bigrams)):
-            if (bigrams[i][0] or bigrams[i][1] or bigrams[i][0].lower() or bigrams[i][1].lower()) in stopwords:
-                print('yes')
-                print('\n')
-                print(bigrams[i][0])
-                print(bigrams[i][1])
-                print(bigrams[i][0].lower())
-                print(bigrams[i][1].lower())
-                print('\n')
-                time.sleep(4)
-                yes_counter += 1
-                remove_stopword_bigram.append(i)
-                print(remove_stopword_bigram)
-                
-            else:
-                print('no')
-                no_counter += 1
-            #print('\n')'
-        '''
-            
-        #print(remove_stopword_bigram)
-        #time.sleep(1000)
         
         bigram_filtered = []
         bigram_discard = []
         
         for i in range(len(bigrams)):
-            #print(bigrams[i])
-            #print(bigrams[i][0])
             first_condition = bigrams[i][0] in stopwords
-            #print(first_condition)
-            #print(bigrams[i][1])
             second_condition = bigrams[i][1] in stopwords
-            #print(second_condition)
             if first_condition or second_condition == True:
                 bigram_discard.append(bigrams[i])
             else:
                 bigram_filtered.append(bigrams[i])
-            #print(bigram_discard)
-            #print('^discard')
-            #print(bigram_filtered)
-            #print('^filtered')
-            #time.sleep(4)
-        
-        '''
-        for i in range(len(bigrams)):
-            if (bigrams[i][0] and bigrams[i][1] and bigrams[i][0].lower() and bigrams[i][1].lower()) not in stopwords:
-                print(bigrams[i][0])
-                print('^First bigram')
-                print(bigrams[i][1])
-                print('^Second bigram')
-                bigram_discard.append(bigrams[i])
-                print('choice discard')
-                print('\n')
-            else:
-                bigram_filtered.append(bigrams[i])
-                print(bigrams[i][0])
-                print('^First bigram')
-                print(bigrams[i][1])
-                print('^Second bigram')
-                print('choice filtered')
-                print('\n')
-
-            print(bigrams[i])
-            print('^ Original')
-            print('This is filtered.')
-            print(bigram_filtered)
-            print('This is discarded')
-            print(bigram_discard)
-            time.sleep(15)
-        '''
-        #time.sleep(1000)
-                
-
-
-        #for i in range(len(bigrams_without)):
-        #    bigrams_pared_2.append(bigrams[i])
-            
-        #print(bigrams_pared_2)
-        
-        #print(remove_stopword_bigram)
-        #print(bigrams_pared)
-        #print(yes_counter)
-        #print(no_counter)
-        #print(stopwords)
-        #print(len(bigrams))
-        #print(len(bigrams_pared))
-        #time.sleep(1000)
-
-        #print(stopwords)
         
         fdist2 = FreqDist(bigram_filtered)
         fdist2_most_common = fdist2.most_common(50)
-        print(fdist2_most_common)
-
-        time.sleep(1000)
-        
-        #Bigram Link : https://stackoverflow.com/questions/21844546/forming-bigrams-of-words-in-list-of-sentences-with-python
-        
-        '''
-        bigram_master = []
-        
-        for bigram in range(len(cluster_text_list)):
-            bigram_word_list = []
-            bigram_word_list.append(cluster_text_list[bigram].split(" "))
-                
-            word_output_list = 0
-        
-            for split_bigram_word in bigram_word_list: #Gets rid of nesting quirk
-                word_output_list = split_bigram_word  
-
-            bigrams = list(nltk.bigrams(word_output_list))
-        
-            filtered = []
-            for pairs in bigrams: #Similar process as to the unigrams
-                if pairs[0].lower() in stopwords or pairs[1].lower() in stopwords:
-                    continue
-                elif pairs[0].lower() in custom_words or pairs[1].lower() in custom_words:
-                    continue
-                else:
-                    filtered.append(pairs)
-        
-            bigram_master.extend(filtered)
-            
-        fdistbigram = FreqDist(bigram_master)
-        fdistbigram_common = fdistbigram.most_common(50)
         
         bigram_distribution_variable = []
         
-        for i in range(len(fdistbigram_common)): #Again, this code is similar to that of the unigrams, and the explanation is the same.
-            for j in range(fdistbigram_common[i][1]): 
-                bigram_distribution_variable.append(fdistbigram_common[i][0])
+        for i in range(len(fdist2_most_common)):
+            for j in range(fdist2_most_common[i][1]):
+                bigram_distribution_variable.append(fdist2_most_common[i][0])
+    
+        #Would need to do more work for turning into word cloud, not so important at athe moment.
         
-        df = pd.DataFrame(fdist1_most_common, columns =['word', 'frequency'])
+        df_bigram = pd.DataFrame(fdist2_most_common, columns=['word','frequency'])
         
-        dfbigram = pd.DataFrame(fdistbigram_common, columns =['word', 'frequency'])
-        '''
+        df_bigram.plot(kind = 'bar', x = 'word')
+        
+        print(fdist2_most_common)
         
         '''
         This is the section of the program that generates word clouds
@@ -263,7 +133,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         wordcloud.to_file('cluster ' + str(cluster_counter) + '.png') 
         cluster_counter += 1
         
-        plt.show()
+        #plt.show()
 
     for i in range(len(cluster_coordinates)):
         img_orig = mpimg.imread('cluster ' + str(i+1) + '.png')
@@ -271,7 +141,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         #imagebox_python.set_zorder(1) #An experimental part of the code for positioning zorder of nodes vs word clouds
         
-        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.45),frameon=False) 
+        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.45),frameon=False)
+        print(annotation_box)
         
         '''
         As explained in the network_analysis.py file, the parameters in the line above control the ratio of positioning the word clouds from the distance between the origin and cluster center.
@@ -287,3 +158,5 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
 if __name__ == '__main__':
     
     frequency_analysis()
+    
+#Bigram Link : https://stackoverflow.com/questions/21844546/forming-bigrams-of-words-in-list-of-sentences-with-python
