@@ -143,22 +143,22 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         bigram_discard = []
         
         for i in range(len(bigrams)):
-            print(bigrams[i])
-            print(bigrams[i][0])
+            #print(bigrams[i])
+            #print(bigrams[i][0])
             first_condition = bigrams[i][0] in stopwords
-            print(first_condition)
-            print(bigrams[i][1])
+            #print(first_condition)
+            #print(bigrams[i][1])
             second_condition = bigrams[i][1] in stopwords
-            print(second_condition)
+            #print(second_condition)
             if first_condition or second_condition == True:
                 bigram_discard.append(bigrams[i])
             else:
                 bigram_filtered.append(bigrams[i])
-            print(bigram_discard)
-            print('^discard')
-            print(bigram_filtered)
-            print('^filtered')
-            time.sleep(12.5)
+            #print(bigram_discard)
+            #print('^discard')
+            #print(bigram_filtered)
+            #print('^filtered')
+            #time.sleep(4)
         
         '''
         for i in range(len(bigrams)):
@@ -187,12 +187,10 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
             print(bigram_discard)
             time.sleep(15)
         '''
-        time.sleep(1000)
+        #time.sleep(1000)
                 
-        for i in range(len(bigrams)):
-            if i not in remove_stopword_bigram:
-                bigrams_pared.append(bigrams[i])
-                
+
+
         #for i in range(len(bigrams_without)):
         #    bigrams_pared_2.append(bigrams[i])
             
@@ -209,7 +207,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
 
         #print(stopwords)
         
-        fdist2 = FreqDist(bigrams_pared_2)
+        fdist2 = FreqDist(bigram_filtered)
         fdist2_most_common = fdist2.most_common(50)
         print(fdist2_most_common)
 
