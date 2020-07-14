@@ -32,6 +32,8 @@ def content_filter(text):
 
 def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): #Take from network_analysis
     
+    plt.savefig('network_graph.png')
+    
     cluster_counter = 1
     
     for cluster_list in range(len(cluster_setlist)):#Cluster_setlist is a list of networkx set objects.
@@ -66,6 +68,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
             cluster_text_list.append(text_list)
             cluster_text_split_list.append(text_split_list)
             cluster_word_list.append(word_list)
+            
+        #plt.savefig('Figure_without_cluster ' + str(cluster_counter) + '.png')
            
         cluster_text_list = [item for sublist in cluster_text_list for item in sublist] #Making cluster data into a flat list
         cluster_text_split_list = [item for sublist in cluster_text_split_list for item in sublist]
@@ -150,7 +154,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         #imagebox_python.set_zorder(1) #An experimental part of the code for positioning zorder of nodes vs word clouds
         
-        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.45),frameon=False)
+        annotation_box = AnnotationBbox(imagebox_python,(cluster_coordinates[i-len(cluster_coordinates)][0]*1.45,cluster_coordinates[i-len(cluster_coordinates)][1]*1.40),frameon=False)
         print(annotation_box)
         
         '''
@@ -159,8 +163,10 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         ax.add_artist(annotation_box)
         ax.set_facecolor('none') #Syntax related to adding custom .png images to existing matplotlib figures.
-        
-    #plt.show()
+    
+    graph_figure.savefig('network_graph_wordcloud.png')    
+    plt.show()
+    #plt.savefig('network_graph_wordcloud.png')
     
     return geo_list
     
