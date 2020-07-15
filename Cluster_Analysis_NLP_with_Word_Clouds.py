@@ -119,6 +119,16 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         fdist2 = FreqDist(bigram_filtered)
         fdist2_most_common = fdist2.most_common(50)
         
+        fdist2_most_common_split = []
+        
+        for i in range(len(fdist2_most_common)):
+            fdist2_most_common_split.append((fdist2_most_common[i][0][0],fdist2_most_common[i][0][1],fdist2_most_common[i][1]))
+        
+        #fdist2_most_common_split = [[i[0][0] for i in fdist2_most_common],[i[0][1] for i in fdist2_most_common],[i[1] for i in fdist2_most_common]] #Splitting tuple since it's a string in csv. 
+        #print(fdist2_most_common)
+        
+        #time.sleep(1000)
+        
         bigram_distribution_variable = []
         
         for i in range(len(fdist2_most_common)):
@@ -127,13 +137,28 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
     
         #Would need to do more work for turning into word cloud, not so important at athe moment.
         
-        df_bigram = pd.DataFrame(fdist2_most_common, columns=['word','frequency'])
+        df_bigram_split = pd.DataFrame(fdist2_most_common_split, columns=['word1','word2','frequency'])
+        df_bigram_split.to_csv('bigram_{0}.csv'.format(cluster_counter), sep=',')
         
-        df_bigram.plot(kind = 'bar', x = 'word')
+        #print(df_bigram)
+        #print(type(df_bigram))
         
-        df_bigram.to_csv('bigram_{0}.tsv'.format(cluster_counter), sep='\t')
+        #print(fdist2_most_common)
+        #print(type(fdist2_most_common))
+        
+        print(fdist2_most_common_split)
+        
+        #time.sleep(1000)
+        
+        df_bigram = pd.DataFrame(fdist2_most_common, columns=['bigram pair', 'frequency'])
+        df_bigram.plot(kind = 'bar', x = 'bigram pair')
+        
+        
         
         plt.savefig('bigram_frequency ' + str(cluster_counter) + '.png')
+        
+        #time.sleep(1000)
+        
         
         print(fdist2_most_common)
         
@@ -165,7 +190,7 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         ax.set_facecolor('none') #Syntax related to adding custom .png images to existing matplotlib figures.
     
     graph_figure.savefig('network_graph_wordcloud.png')    
-    plt.show()
+    #plt.show()
     #plt.savefig('network_graph_wordcloud.png')
     
     return geo_list
