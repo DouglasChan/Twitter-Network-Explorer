@@ -14,6 +14,7 @@ from wordcloud import WordCloud
 
 import matplotlib.image as mpimg
 from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
+import os
 
 stopwords = nltk.corpus.stopwords.words('english')
 stopwords_unigram = ['RT','rt','','-','I\'m','@','—','.','&','&amp','us','&amp']
@@ -30,9 +31,7 @@ def content_filter(text):
     content = [w for w in text if w.lower() not in stopwords]
     return content
 
-def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): #Take from network_analysis
-    
-    plt.savefig('network_graph.png')
+def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax, first_handle): #Take from network_analysis
     
     cluster_counter = 1
     
@@ -68,8 +67,6 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
             cluster_text_list.append(text_list)
             cluster_text_split_list.append(text_split_list)
             cluster_word_list.append(word_list)
-            
-        #plt.savefig('Figure_without_cluster ' + str(cluster_counter) + '.png')
            
         cluster_text_list = [item for sublist in cluster_text_list for item in sublist] #Making cluster data into a flat list
         cluster_text_split_list = [item for sublist in cluster_text_split_list for item in sublist]
@@ -94,9 +91,23 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         unigram_distribution_variable = ' '.join(unigram_distribution_variable) #This gives what I'd need -- most frequent unigrams as a long string.
         
-        df_unigram.to_csv('unigram_{0}.tsv'.format(cluster_counter), sep='\t')
+        script_dir = os.path.dirname(__file__)
+    
+        results_dir = os.path.join(script_dir, '{0}/unigram_data/'.format(first_handle))
+        sample_file_name = "unigram_{0}.csv".format(cluster_counter) #Check?
+    
+        if not os.path.isdir(results_dir):
+            os.makedirs(results_dir)
+    
+        df_unigram.to_csv(results_dir + sample_file_name)
+    
+        results_dir = os.path.join(script_dir,'{0}/unigram_histograms/'.format(first_handle))
+        sample_file_name = "unigram_histogram_{0}.png".format(cluster_counter)
         
-        plt.savefig('unigram_frequency ' + str(cluster_counter) + '.png')
+        if not os.path.isdir(results_dir):
+            os.makedirs(results_dir)
+        
+        plt.savefig(results_dir + sample_file_name)
         
         ###
 
@@ -113,6 +124,8 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
             second_condition = bigrams[i][1] in stopwords
             if first_condition or second_condition == True:
                 bigram_discard.append(bigrams[i])
+            elif ('@' == bigrams[i][0][0]) or ('@' == bigrams[i][1][0]): #Removing mentions from bigrams
+                bigram_discard.append(bigrams[i])
             else:
                 bigram_filtered.append(bigrams[i])
         
@@ -124,11 +137,6 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         for i in range(len(fdist2_most_common)):
             fdist2_most_common_split.append((fdist2_most_common[i][0][0],fdist2_most_common[i][0][1],fdist2_most_common[i][1]))
         
-        #fdist2_most_common_split = [[i[0][0] for i in fdist2_most_common],[i[0][1] for i in fdist2_most_common],[i[1] for i in fdist2_most_common]] #Splitting tuple since it's a string in csv. 
-        #print(fdist2_most_common)
-        
-        #time.sleep(1000)
-        
         bigram_distribution_variable = []
         
         for i in range(len(fdist2_most_common)):
@@ -137,30 +145,25 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
     
         #Would need to do more work for turning into word cloud, not so important at athe moment.
         
+        results_dir = os.path.join(script_dir,'{0}/bigram_data/'.format(first_handle))
+        sample_file_name = "bigram_{0}.csv".format(cluster_counter) #Check?
+    
+        if not os.path.isdir(results_dir):
+            os.makedirs(results_dir)
+        
         df_bigram_split = pd.DataFrame(fdist2_most_common_split, columns=['word1','word2','frequency'])
-        df_bigram_split.to_csv('bigram_{0}.csv'.format(cluster_counter), sep=',')
-        
-        #print(df_bigram)
-        #print(type(df_bigram))
-        
-        #print(fdist2_most_common)
-        #print(type(fdist2_most_common))
-        
-        print(fdist2_most_common_split)
-        
-        #time.sleep(1000)
+        df_bigram_split.to_csv(results_dir+sample_file_name)        
         
         df_bigram = pd.DataFrame(fdist2_most_common, columns=['bigram pair', 'frequency'])
         df_bigram.plot(kind = 'bar', x = 'bigram pair')
         
+        results_dir = os.path.join(script_dir,'{0}/bigram_histograms/'.format(first_handle))
+        sample_file_name = "bigram_histogram_{0}.png".format(cluster_counter)
         
+        if not os.path.isdir(results_dir):
+            os.makedirs(results_dir)
         
-        plt.savefig('bigram_frequency ' + str(cluster_counter) + '.png')
-        
-        #time.sleep(1000)
-        
-        
-        print(fdist2_most_common)
+        plt.savefig(results_dir + sample_file_name)
         
         '''
         This is the section of the program that generates word clouds
@@ -168,7 +171,14 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         
         wordcloud = WordCloud(background_color = 'white', collocations=False).generate(unigram_distribution_variable)
         
-        wordcloud.to_file('cluster ' + str(cluster_counter) + '.png') 
+        results_dir = os.path.join(script_dir,'{0}/unigram_wordclouds/'.format(first_handle))
+        sample_file_name = "unigram_wordclouds_{0}.png".format(cluster_counter)
+        
+        if not os.path.isdir(results_dir):
+            os.makedirs(results_dir)
+        
+        wordcloud.to_file(results_dir + sample_file_name)
+        
         cluster_counter += 1
         
         #plt.show()
@@ -189,9 +199,13 @@ def frequency_analysis(cluster_setlist, cluster_coordinates, graph_figure, ax): 
         ax.add_artist(annotation_box)
         ax.set_facecolor('none') #Syntax related to adding custom .png images to existing matplotlib figures.
     
-    graph_figure.savefig('network_graph_wordcloud.png')    
-    #plt.show()
-    #plt.savefig('network_graph_wordcloud.png')
+    results_dir = os.path.join(script_dir,'{0}/network_with_wordclouds/'.format(first_handle))
+    sample_file_name = "network_with_wordclouds.png"
+        
+    if not os.path.isdir(results_dir):
+        os.makedirs(results_dir)
+
+    graph_figure.savefig(results_dir + sample_file_name)
     
     return geo_list
     

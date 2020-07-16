@@ -27,7 +27,6 @@ def network_building(files, model, first_handle):
 
     G = nx.Graph()
     
-    
     _ = [G.add_edge(i[0], i[1], weight = sim_score) for i,sim_score in network_dict.items() if sim_score > 0.49]; #Uses similarity scores as the basis for drawing edges in the graph. This parameter sim_score ranges from 0 to 1.
                                                                                              
     '''
@@ -135,10 +134,8 @@ def network_building(files, model, first_handle):
         average_y = sum(cluster_y_coords) / nodes_in_cluster
         
         cluster_coordinates.append((average_x,average_y))
-        
-    #plt.savefig("network_graph.png")
     
-        #Experimental code
+    #Experimental code
     script_dir = os.path.dirname(__file__)
     
     results_dir = os.path.join(script_dir, '{0}/network_data/'.format(first_handle))
@@ -148,17 +145,8 @@ def network_building(files, model, first_handle):
     if not os.path.isdir(results_dir):
         os.makedirs(results_dir)
     
-    #plt.show()
-
-    #plt.savefig("network_graph.png")
     plt.savefig(results_dir + sample_file_name)
-    
-    #time.sleep(1000)
-
-    #plt.savefig("{0}/network_graph.png".format(first_handle))
         
     #plt.annotate('origin',(0,0)) This can be uncommented if one wants to verify the center of the figure. 
-    
-    time.sleep(1000)
     
     return cluster_list, cluster_coordinates, graph_figure, ax #, cluster_coordinates

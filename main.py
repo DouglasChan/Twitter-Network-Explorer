@@ -53,10 +53,10 @@ if __name__ == '__main__':
      
     cluster_list, cluster_coordinates, graph_figure, ax = network_analysis.network_building(json_filenames, doc_model, first_handle)
     
-    geo_list = Cluster_Analysis_NLP_with_Word_Clouds.frequency_analysis(cluster_list, cluster_coordinates, graph_figure, ax)
+    geo_list = Cluster_Analysis_NLP_with_Word_Clouds.frequency_analysis(cluster_list, cluster_coordinates, graph_figure, ax, first_handle)
 
     larger_coordinates_list, larger_text_list, larger_name_list, geo_list = twitter_make_geojson.main_geo_creator(geo_list)
     
-    twitter_make_map.make_map(larger_coordinates_list, larger_text_list, larger_name_list, geo_list)
+    twitter_make_map.make_map(larger_coordinates_list, larger_text_list, larger_name_list, geo_list, first_handle)
 
     
