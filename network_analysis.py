@@ -3,8 +3,9 @@ from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import time
 from networkx.algorithms.community import greedy_modularity_communities
+import os
 
-def network_building(files, model):
+def network_building(files, model, first_handle):
 
     cluster_coordinates = []
 
@@ -92,7 +93,20 @@ def network_building(files, model):
                
     positions = nx.kamada_kawai_layout(G) #Uses force-directed graph drawing, and the Kawada-Kawai algrotihm.
     
-    plt.savefig( "network_graph.png" )
+    #Experimental code
+    script_dir = os.path.dirname(__file__)
+    results_dir = os.path.join(script_dir, '{0}'.format(first_handle))
+    sample_file_name = "sample"
+
+    if not os.path.isdir(results_dir):
+        os.makedirs(results_dir)
+
+    plt.savefig(results_dir + sample_file_name)
+    
+    
+    
+    
+    #plt.savefig( "{0}/network_graph.png".format(first_handle))
 
     graph_figure, ax = plt.subplots(figsize=(30,15)) #Graph created using subplots -- Doing so enables us to draw both word clouds and the network on the same figure.
     ax.set_facecolor('none')
