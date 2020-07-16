@@ -93,21 +93,6 @@ def network_building(files, model, first_handle):
                
     positions = nx.kamada_kawai_layout(G) #Uses force-directed graph drawing, and the Kawada-Kawai algrotihm.
     
-    #Experimental code
-    script_dir = os.path.dirname(__file__)
-    results_dir = os.path.join(script_dir, '{0}'.format(first_handle))
-    sample_file_name = "sample"
-
-    if not os.path.isdir(results_dir):
-        os.makedirs(results_dir)
-
-    plt.savefig(results_dir + sample_file_name)
-    
-    
-    
-    
-    #plt.savefig( "{0}/network_graph.png".format(first_handle))
-
     graph_figure, ax = plt.subplots(figsize=(30,15)) #Graph created using subplots -- Doing so enables us to draw both word clouds and the network on the same figure.
     ax.set_facecolor('none')
     
@@ -151,8 +136,29 @@ def network_building(files, model, first_handle):
         
         cluster_coordinates.append((average_x,average_y))
         
+    #plt.savefig("network_graph.png")
+    
+        #Experimental code
+    script_dir = os.path.dirname(__file__)
+    
+    results_dir = os.path.join(script_dir, '{0}/network_data/'.format(first_handle))
+    
+    sample_file_name = "network_graph.png" #Check?
+    
+    if not os.path.isdir(results_dir):
+        os.makedirs(results_dir)
+    
+    #plt.show()
+
+    #plt.savefig("network_graph.png")
+    plt.savefig(results_dir + sample_file_name)
+    
+    #time.sleep(1000)
+
+    #plt.savefig("{0}/network_graph.png".format(first_handle))
+        
     #plt.annotate('origin',(0,0)) This can be uncommented if one wants to verify the center of the figure. 
     
-    #plt.savefig( "network_graph.png" )
+    time.sleep(1000)
     
     return cluster_list, cluster_coordinates, graph_figure, ax #, cluster_coordinates
