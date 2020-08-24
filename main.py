@@ -58,5 +58,7 @@ if __name__ == '__main__':
     larger_coordinates_list, larger_text_list, larger_name_list, geo_list = twitter_make_geojson.main_geo_creator(geo_list)
     
     twitter_make_map.make_map(larger_coordinates_list, larger_text_list, larger_name_list, geo_list, first_handle)
+    
+    print(cluster_list)
 
     
